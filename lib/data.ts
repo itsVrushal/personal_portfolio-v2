@@ -25,12 +25,10 @@ export const experience = [
   {
     company: "AutonexAI360",
     role: "ML Developer",
-    period: "July 2026 – Present",
+    period: "July 2026 – Sept 2026",
     description: [
-      "Engineered end-to-end MLOps pipelines using PyTorch and Docker to fine-tune and deploy quantized models across NVIDIA DGX spark and edge/ARM nodes (Minisforum AMD Ryzen 9), boosting localized inference throughput by 3.4×.",
-      "Architected localized Multi-Agent Orchestration networks via LangChain, shifting core workloads strictly to edge hardware to cut cloud LLM API costs by 100% and reduce latency to sub-30ms.",
-      "Built full-stack software wrappers over fine-tuned edge models using Python and asynchronous REST APIs, accelerating deployment cycles from weeks to 4 hours while maintaining 99.9% uptime.",
-      "Developed and deployed interactive resource-planning tooling, reducing edge Out-of-Memory (OOM) failures by 95% and streamlining hardware-to-model matching.",
+      "Designed evaluation pipelines and evaluator functions to benchmark ML model outputs (including Yutori N2) against defined quality metrics across model iterations, catching performance regressions before deployment.",
+      "Wrote test scripts validating inference accuracy, keeping model releases stable, testable, and production-ready.",
     ],
   },
   {
@@ -38,10 +36,10 @@ export const experience = [
     role: "AI Engineering Intern",
     period: "July 2025 – June 2026",
     description: [
-      "Designed a production-grade multi-agent orchestration layer using LangChain for autonomous task routing, dynamically dispatching cross-database queries without human intervention.",
-      "Achieved an 801× query speedup (31.9s → 0.03s) via Redis-backed semantic caching, cutting redundant LLM API calls by 60–90% and serving cache hits at 10–50ms latency.",
-      "Optimized end-to-end pipelines processing 1.15M+ tokens, delivering 4.8× faster responses via prompt compression and batching, while developing plug-and-play MCP servers.",
-      "Built a hybrid RAG pipeline (semantic + keyword) achieving a 92% cache hit rate, slashing embedding latency from 67 seconds to sub-second retrieval times.",
+      "Designed a production-grade multi-agent orchestration layer (LangChain) that autonomously routes and dispatches cross-database queries without human intervention.",
+      "Benchmarked and shipped Redis-backed semantic caching: 801× query speedup (31.9s → 0.03s), 60–90% fewer redundant LLM API calls, and 10–50ms cache-hit latency.",
+      "Built a hybrid RAG pipeline (semantic + keyword retrieval) with a 92% cache hit rate, cutting embedding latency from 67 seconds to sub-second retrieval.",
+      "Optimized end-to-end pipelines processing 1.15M+ tokens, delivering 4.8× faster responses via prompt compression and batching; developed plug-and-play MCP servers.",
     ],
   },
 ];
@@ -58,6 +56,27 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  {
+    name: "OSWorld: GIMP Evaluator Fixes (Open Source)",
+    organization: "OSWorld (computer-use agent benchmark) | PR #681",
+    category: "Agentic & Systems",
+    tech: ["Python", "OpenCV", "Pillow", "NumPy"],
+    link: "https://github.com/xlang-ai/OSWorld/pull/681",
+    description: [
+      "Fixed GIMP task evaluators in OSWorld (computer-use agent benchmark) that crashed on black or non-square images and could reward the wrong object or an all-green canvas; my patch (#511) was completed by the maintainers and merged into main via #681, with my commit retained.",
+      "Evaluators now validate the actual visible yellow triangle and preserved object pixels; added 22 offline tests (47 passing across adjacent suites), verified against the real task input images.",
+    ],
+  },
+  {
+    name: "Edge AI Inference & MLOps Pipeline",
+    organization: "PyTorch, LangChain, Docker, NVIDIA DGX Spark | 2026",
+    category: "Agentic & Systems",
+    tech: ["PyTorch", "LangChain", "Docker", "NVIDIA DGX Spark"],
+    description: [
+      "Fine-tuned and deployed quantized models across NVIDIA DGX Spark and ARM edge nodes, boosting local inference throughput by 3.4×.",
+      "Shifted multi-agent (LangChain) workloads to edge hardware, eliminating cloud LLM API costs for those workloads and cutting latency to sub-30ms.",
+    ],
+  },
   {
     name: "Scalable Video Monitoring & Edge Streaming Platform",
     organization: "WebRTC, RTSP, VPN, Edge Gateway, Python | 2026",
@@ -96,9 +115,8 @@ export const projects: Project[] = [
     category: "Computer Vision",
     tech: ["Python", "YOLOv8", "PyTorch", "Docker", "OpenCV"],
     description: [
-      "Developed and trained an advanced computer vision model using YOLOv8 for real-time platform safety monitoring and automated anomaly and accident detection.",
-      "Architected an intelligent edge-inference agent to process live CCTV feeds, achieving 95% detection accuracy while dynamically triggering automated safety alerts for immediate incident response.",
-      "Containerized the complete ML pipeline via Docker for scalable edge deployment, optimizing inference speed and hardware utilization for resource-constrained environments.",
+      "Trained and evaluated a YOLOv8 computer vision model for real-time platform safety monitoring, reaching 95% detection accuracy on live CCTV feeds for anomaly and accident detection (basis of the patents).",
+      "Built an edge-inference agent that triggers automated safety alerts, and containerized the full ML pipeline with Docker, optimizing inference speed and hardware utilization for resource-constrained deployment.",
     ],
   },
   {
@@ -212,12 +230,39 @@ export const projects: Project[] = [
   },
 ];
 
+export const publications = [
+  {
+    title: "UNFAZEDROADS: Pothole Management System",
+    venue: "Springer, 2024 (ICRAAI 2023)",
+    role: "Co-author",
+    description:
+      "Real-time pothole detection with a public reporting portal.",
+  },
+  {
+    title: "Cyberbullying Detection (ML Study)",
+    venue: "Springer LNNS, ICTIS 2024 (Scopus-indexed)",
+    role: "Author",
+    description:
+      "Benchmarked 9 ML classifiers on 47,000+ social media records; Bagging Classifier reached 92.92% accuracy.",
+  },
+];
+
+export const patents = [
+  {
+    title: "IoT Predictive Escalator Fall Alert System",
+    status: "Granted, South Africa (No. 2025/09833, Jul 2026)",
+    role: "Co-inventor",
+    description:
+      "Fall detection and alerting for the Pune MahaMetro safety project.",
+  },
+];
+
 export const skills = {
   languages: ["Python", "SQL", "Java", "C", "TypeScript"],
   agentic_ai: [
     "LangChain",
     "Multi-Agent Orchestration",
-    "Hybrid RAG",
+    "Hybrid RAG (TF-IDF, BM25, embeddings)",
     "LLM Fine-Tuning & Quantization",
     "Semantic Caching",
     "Model Context Protocol (MCP)",
@@ -232,6 +277,8 @@ export const skills = {
     "DenseNet & CNNs",
     "Deep LSTM (Time-Series)",
     "NLP (TF-IDF, BM25)",
+    "Model Evaluation & Benchmarking",
+    "Experiment Design",
     "Edge Inference",
     "Roboflow",
   ],
@@ -245,6 +292,7 @@ export const skills = {
     "Edge AI Deployment",
   ],
   databases_vectors: [
+    "SQL",
     "ChromaDB",
     "Redis",
     "PostgreSQL",
@@ -266,7 +314,7 @@ export const skills = {
   ai_llm: [
     "LangChain",
     "Multi-Agent Orchestration",
-    "Hybrid RAG",
+    "Hybrid RAG (TF-IDF, BM25, embeddings)",
     "LLM Fine-Tuning & Quantization",
     "Semantic Caching",
     "Model Context Protocol (MCP)",
@@ -291,6 +339,8 @@ export const skills = {
     "DenseNet & CNNs",
     "Deep LSTM",
     "NLP (TF-IDF, BM25)",
+    "Model Evaluation & Benchmarking",
+    "Experiment Design",
     "Edge Inference",
   ],
   devops: [
@@ -305,7 +355,8 @@ export const skills = {
 
 export const achievements = [
   "Runner-Up at HackMITWPU'24 for an advanced video analytics solution with Maha-Metro",
-  "Published a peer-reviewed research paper in Springer Proceedings (ICTIS 2024)",
-  "Patent granted for an innovative video surveillance system",
+  "Published peer-reviewed research in Springer Proceedings (ICTIS 2024) and co-authored UNFAZEDROADS (Springer, 2024)",
+  "Patent granted (South Africa, No. 2025/09833, Jul 2026) for an IoT Predictive Escalator Fall Alert System",
+  "Merged open-source contribution to OSWorld (GIMP evaluator fixes, PR #681)",
   "Led and mentored teams in hackathons and academic projects",
 ];
