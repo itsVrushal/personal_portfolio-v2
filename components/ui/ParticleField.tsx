@@ -4,6 +4,14 @@ import { useRef, useMemo, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
+function createPseudoRandom(seed = 123456789) {
+  let s = seed;
+  return () => {
+    s = (s * 1664525 + 1013904223) % 4294967296;
+    return s / 4294967296;
+  };
+}
+
 function Particles({ count = 600 }: { count?: number }) {
   const mesh = useRef<THREE.Points>(null);
   const mouse = useRef({ x: 0, y: 0 });
@@ -19,17 +27,18 @@ function Particles({ count = 600 }: { count?: number }) {
     []
   );
 
-  // Build geometry once
+  // Build geometry once with deterministic generator for React 19 purity
   const [positions, randoms] = useMemo(() => {
+    const prng = createPseudoRandom(42);
     const pos = new Float32Array(count * 3);
     const rnd = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      pos[i * 3 + 0] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 10;
-      rnd[i * 3 + 0] = Math.random() * Math.PI * 2;
-      rnd[i * 3 + 1] = Math.random() * 0.5 + 0.2;
-      rnd[i * 3 + 2] = Math.random() * 0.3 + 0.05;
+      pos[i * 3 + 0] = (prng() - 0.5) * 20;
+      pos[i * 3 + 1] = (prng() - 0.5) * 20;
+      pos[i * 3 + 2] = (prng() - 0.5) * 10;
+      rnd[i * 3 + 0] = prng() * Math.PI * 2;
+      rnd[i * 3 + 1] = prng() * 0.5 + 0.2;
+      rnd[i * 3 + 2] = prng() * 0.3 + 0.05;
     }
     return [pos, rnd];
   }, [count]);

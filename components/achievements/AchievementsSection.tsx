@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import GlassCard from "../ui/GlassCard";
+import ParallaxCard from "../ui/ParallaxCard";
 import { achievements } from "@/lib/data";
 import { use3DScroll } from "@/lib/use3DScroll";
 
@@ -112,19 +113,24 @@ export default function AchievementsSection() {
                 delay: index * 0.1,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              style={{}}
               className="min-w-[85vw] md:min-w-0 snap-center h-full flex flex-col"
             >
-              <GlassCard className="p-6 md:p-7 h-full flex items-center gap-5 group overflow-hidden relative">
-                <div className="w-11 h-11 rounded-xl bg-accent-dim border border-accent/20 flex items-center justify-center text-accent flex-shrink-0 shadow-sm group-hover:scale-105 group-hover:border-accent/40 transition-[transform,border-color] duration-300">
-                  <MilestoneIcon index={index} />
-                </div>
-                <div className="flex-grow">
-                  <p className="text-text-hi font-medium leading-relaxed text-sm md:text-base">
-                    {item}
-                  </p>
-                </div>
-              </GlassCard>
+              <ParallaxCard
+                index={index}
+                gridCols={3}
+                className="h-full flex flex-col"
+              >
+                <GlassCard className="p-6 md:p-7 h-full flex items-center gap-5 group overflow-hidden relative">
+                  <div className="w-11 h-11 rounded-xl bg-accent-dim border border-accent/20 flex items-center justify-center text-accent flex-shrink-0 shadow-sm group-hover:scale-105 group-hover:border-accent/40 transition-[transform,border-color] duration-300">
+                    <MilestoneIcon index={index} />
+                  </div>
+                  <div className="flex-grow">
+                    <p className="text-text-hi font-medium leading-relaxed text-sm md:text-base">
+                      {item}
+                    </p>
+                  </div>
+                </GlassCard>
+              </ParallaxCard>
             </motion.div>
           ))}
         </div>

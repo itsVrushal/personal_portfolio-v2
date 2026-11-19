@@ -46,6 +46,7 @@ html {
   caret-color: var(--accent);
   scrollbar-color: var(--accent) transparent;
   scrollbar-width: thin;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -53,8 +54,7 @@ body {
   color: var(--text-lo);
   font-family: var(--font-sans), sans-serif;
   overflow-x: clip;
-  /* Let JS handle smooth scrolling for better 3D control */
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
 }
 
 /* Display heads may not force their container wider than the viewport */

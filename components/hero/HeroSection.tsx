@@ -1,8 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import MagneticButton from "../ui/MagneticButton";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 const VRUSHAL_LETTERS = "VRUSHAL".split("");
 const PATIL_LETTERS = "PATIL".split("");
@@ -32,7 +31,8 @@ export default function HeroSection() {
     target: sectionRef,
     offset: ["start start", "end start"],
   });
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+  const rawTextY = useTransform(scrollYProgress, [0, 1], ["0%", "32%"]);
+  const textY = useSpring(rawTextY, { stiffness: 90, damping: 24, mass: 0.14 });
 
   return (
     <section
@@ -49,18 +49,6 @@ export default function HeroSection() {
           pointerEvents: "none",
           zIndex: 1,
           transition: "background 0.05s linear",
-        }}
-      />
-
-      {/* Depth fade vignette */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          background:
-            "radial-gradient(ellipse 80% 60% at 50% 120%, transparent 0%, var(--bg) 80%)",
-          pointerEvents: "none",
-          zIndex: 1,
         }}
       />
 
@@ -152,7 +140,7 @@ export default function HeroSection() {
               initial={{ y: 16 }}
               animate={{ y: 0 }}
               transition={{ duration: 0.6, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
-              className="text-text-lo text-lg md:text-xl max-w-[60ch]"
+              className="text-black text-lg md:text-xl max-w-[60ch] font-medium"
               style={{ marginBottom: "2.5rem", lineHeight: 1.6 }}
             >
               Building the future with code, one algorithm at a time. Designing
@@ -166,18 +154,18 @@ export default function HeroSection() {
               transition={{ duration: 0.5, delay: 1.15, ease: [0.22, 1, 0.36, 1] }}
               style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}
             >
-              <MagneticButton
+              <a
                 href="#projects"
-                className="bg-accent text-accent-ink font-bold px-8 py-3 rounded-full hover:bg-accent/90 shadow-[0_4px_16px_var(--glow-accent-soft)] transition-[background-color,box-shadow] duration-300"
+                className="bg-accent text-accent-ink font-bold px-8 py-3 rounded-full hover:bg-accent/90 hover:scale-[1.03] active:scale-[0.98] shadow-[0_4px_16px_var(--glow-accent-soft)] hover:shadow-[0_8px_24px_var(--glow-accent)] transition-[transform,background-color,box-shadow] duration-200 cursor-pointer inline-flex items-center justify-center text-center"
               >
                 View Work
-              </MagneticButton>
-              <MagneticButton
+              </a>
+              <a
                 href="#contact"
-                className="bg-surface/80 border border-border text-text-hi px-8 py-3 rounded-full hover:bg-surface transition-[background-color,box-shadow] duration-300 shadow-[0_2px_8px_var(--shadow-warm-soft)]"
+                className="bg-surface/90 border border-border text-text-hi font-bold px-8 py-3 rounded-full hover:bg-surface hover:border-accent/40 hover:scale-[1.03] active:scale-[0.98] shadow-[0_2px_8px_var(--shadow-warm-soft)] hover:shadow-[0_6px_20px_var(--shadow-warm)] transition-[transform,background-color,border-color,box-shadow] duration-200 cursor-pointer inline-flex items-center justify-center text-center"
               >
                 Get In Touch
-              </MagneticButton>
+              </a>
             </motion.div>
           </div>
         </motion.div>

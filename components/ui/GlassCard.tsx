@@ -28,7 +28,7 @@ export default function GlassCard({
         const rotY = x * tiltStrength;
         const rotX = -y * tiltStrength;
         cardRef.current.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(4px)`;
-        // Shift the inner highlight
+        // Shift the original inner warm glow highlight
         cardRef.current.style.backgroundImage = `radial-gradient(circle at ${(x + 0.5) * 100}% ${(y + 0.5) * 100}%, var(--glow-card) 0%, transparent 60%)`;
       });
     },
@@ -48,7 +48,7 @@ export default function GlassCard({
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`relative rounded-2xl bg-surface/75 border border-border backdrop-blur-xl shadow-[0_4px_24px_var(--shadow-warm-soft)] transition-[border-color,box-shadow] duration-300 hover:border-accent/35 hover:shadow-[0_12px_36px_var(--glow-accent)] ${className}`}
+      className={`relative rounded-2xl bg-surface/85 border border-border backdrop-blur-xl shadow-[0_4px_24px_var(--shadow-warm-soft)] transition-[border-color,box-shadow] duration-300 hover:border-accent/35 hover:shadow-[0_12px_36px_var(--glow-accent)] ${className}`}
       style={{
         willChange: "transform",
         transformStyle: "preserve-3d",

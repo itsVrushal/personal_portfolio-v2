@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import GlassCard from "../ui/GlassCard";
+import ParallaxCard from "../ui/ParallaxCard";
 import { projects, personalInfo, Project } from "@/lib/data";
 import { use3DScroll } from "@/lib/use3DScroll";
 
@@ -171,7 +172,12 @@ export default function ProjectsSection() {
                   }}
                   className="h-full min-w-0 flex flex-col col-span-1"
                 >
-                  <GlassCard className="p-8 md:p-10 h-full min-w-0 flex flex-col group overflow-hidden relative">
+                  <ParallaxCard
+                    index={index}
+                    gridCols={2}
+                    className="h-full min-w-0 flex flex-col"
+                  >
+                    <GlassCard className="p-8 md:p-10 h-full min-w-0 flex flex-col group overflow-hidden relative">
                     <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                     <div className="flex flex-col min-w-0">
@@ -269,30 +275,39 @@ export default function ProjectsSection() {
                       </AnimatePresence>
                     </div>
                   </GlassCard>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
+                </ParallaxCard>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
 
-          {/* Closes an odd project count and gives the index somewhere to go next. */}
-          <a
-            href={`https://${personalInfo.github}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="h-full min-w-0 col-span-1 rounded-2xl focus-visible:outline-2"
+        {/* Closes an odd project count and gives the index somewhere to go next. */}
+        <div className="h-full min-w-0 col-span-1">
+          <ParallaxCard
+            index={filteredProjects.length}
+            gridCols={2}
+            className="h-full min-w-0 flex flex-col"
           >
-            <GlassCard className="p-8 md:p-10 h-full min-w-0 flex flex-col justify-center gap-5 group">
-              <span className="font-syne text-2xl font-bold text-text-hi">
-                More on GitHub
-              </span>
-              <span className="font-sans text-sm text-text-lo max-w-[28ch]">
-                Experiments, notebooks and open-source work.
-              </span>
-              <span className="font-sans text-xs font-bold text-accent border-b border-accent/40 pb-0.5 w-fit group-hover:border-accent transition-colors duration-300">
-                @itsVrushal
-              </span>
-            </GlassCard>
-          </a>
+            <a
+              href={`https://${personalInfo.github}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="h-full min-w-0 block rounded-2xl focus-visible:outline-2"
+            >
+              <GlassCard className="p-8 md:p-10 h-full min-w-0 flex flex-col justify-center gap-5 group">
+                <span className="font-syne text-2xl font-bold text-text-hi">
+                  More on GitHub
+                </span>
+                <span className="font-sans text-sm text-text-lo max-w-[28ch]">
+                  Experiments, notebooks and open-source work.
+                </span>
+                <span className="font-sans text-xs font-bold text-accent border-b border-accent/40 pb-0.5 w-fit group-hover:border-accent transition-colors duration-300">
+                  @itsVrushal
+                </span>
+              </GlassCard>
+            </a>
+          </ParallaxCard>
+        </div>
         </div>
       </div>
     </motion.section>

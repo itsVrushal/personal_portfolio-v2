@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
 import GlassCard from "../ui/GlassCard";
+import ParallaxCard from "../ui/ParallaxCard";
 import { education, projects, experience } from "@/lib/data";
 import { use3DScroll } from "@/lib/use3DScroll";
 
@@ -38,62 +39,68 @@ export default function AboutSection() {
       className="pt-28 pb-36 relative"
       style={{ rotateX, y: translateY, opacity, scale }}
     >
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
 
         {/* Left — Stats */}
-        <GlassCard className="p-8 min-h-[320px] flex flex-col justify-center">
-          <div className="mb-10">
-            <div className="font-syne text-6xl lg:text-8xl font-bold text-text-hi">
-              <Counter to={parseFloat(education.cgpa)} />
+        <ParallaxCard offset={28} className="h-full">
+          <GlassCard className="p-8 min-h-[320px] flex flex-col justify-center">
+            <div className="mb-10">
+              <div className="font-syne text-6xl lg:text-8xl font-bold text-text-hi">
+                <Counter to={parseFloat(education.cgpa)} />
+              </div>
+              <div className="font-sans text-sm text-accent mt-2">
+                Cumulative GPA
+              </div>
             </div>
-            <div className="font-sans text-sm text-accent mt-2">
-              Cumulative GPA
-            </div>
-          </div>
 
-          <div className="grid grid-cols-2 gap-8">
-            <div>
-              <div className="font-syne text-4xl lg:text-5xl font-bold text-text-hi">
-                <Counter to={experience.years} />+
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <div className="font-syne text-4xl lg:text-5xl font-bold text-text-hi">
+                  <Counter to={experience.years} />+
+                </div>
+                <div className="font-sans text-xs text-text-lo mt-2">
+                  Years of Total Experience
+                </div>
               </div>
-              <div className="font-sans text-xs text-text-lo mt-2">
-                Years of Total Experience
+              <div>
+                <div className="font-syne text-4xl lg:text-5xl font-bold text-text-hi">
+                  <Counter to={projects.length} />+
+                </div>
+                <div className="font-sans text-xs text-text-lo mt-2">
+                  Major Projects
+                </div>
               </div>
-            </div>
-            <div>
-              <div className="font-syne text-4xl lg:text-5xl font-bold text-text-hi">
-                <Counter to={projects.length} />+
-              </div>
-              <div className="font-sans text-xs text-text-lo mt-2">
-                Major Projects
-              </div>
-            </div>
-          </div>
-        </GlassCard>
-
-        {/* Right — Bio */}
-        <div>
-          <h2 className="font-syne text-4xl md:text-[3.25rem] leading-[1.05] font-bold text-text-hi mb-6">
-            Building systems that think.
-          </h2>
-          <p className="text-text-lo text-base leading-relaxed mb-8 max-w-[65ch]">
-            AI &amp; Systems Developer building intelligent systems that bridge complex
-            backend infrastructure and scalable machine learning. Currently completing a
-            B.Tech in Artificial Intelligence and Data Science at {education.institution}.
-          </p>
-
-          <GlassCard className="p-6">
-            <div className="font-sans text-xs text-accent mb-2">
-              Education
-            </div>
-            <h3 className="font-syne text-lg font-bold text-text-hi mb-1">
-              {education.institution}
-            </h3>
-            <p className="text-text-lo text-sm mb-4">{education.degree}</p>
-            <div className="flex items-center justify-between font-sans text-sm">
-              <span className="text-text-lo">{education.period}</span>
             </div>
           </GlassCard>
+        </ParallaxCard>
+
+        {/* Right — Bio */}
+        <div className="flex flex-col justify-between">
+          <div>
+            <h2 className="font-syne text-4xl md:text-[3.25rem] leading-[1.05] font-bold text-text-hi mb-6">
+              Building systems that think.
+            </h2>
+            <p className="text-text-lo text-base leading-relaxed mb-8 max-w-[65ch]">
+              AI &amp; Systems Developer building intelligent systems that bridge complex
+              backend infrastructure and scalable machine learning. Currently completing a
+              B.Tech in Artificial Intelligence and Data Science at {education.institution}.
+            </p>
+          </div>
+
+          <ParallaxCard offset={28} className="w-full">
+            <GlassCard className="p-6">
+              <div className="font-sans text-xs text-accent mb-2">
+                Education
+              </div>
+              <h3 className="font-syne text-lg font-bold text-text-hi mb-1">
+                {education.institution}
+              </h3>
+              <p className="text-text-lo text-sm mb-4">{education.degree}</p>
+              <div className="flex items-center justify-between font-sans text-sm">
+                <span className="text-text-lo">{education.period}</span>
+              </div>
+            </GlassCard>
+          </ParallaxCard>
         </div>
 
       </div>

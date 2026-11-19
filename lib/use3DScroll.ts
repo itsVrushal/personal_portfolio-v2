@@ -26,7 +26,7 @@ export function use3DScroll(options: Use3DScrollOptions = {}): ScrollTransformVa
   const {
     initialY = 60,
     range = [0.05, 0.32],
-    spring = { stiffness: 60, damping: 20 },
+    spring = { stiffness: 95, damping: 24 },
   } = options;
 
   const ref = useRef<HTMLElement>(null);

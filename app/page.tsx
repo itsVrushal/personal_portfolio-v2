@@ -1,4 +1,6 @@
 import BackgroundParticles from "@/components/ui/BackgroundParticles";
+import FixedBackground from "@/components/ui/FixedBackground";
+import SmoothScroll from "@/components/ui/SmoothScroll";
 import Navbar from "@/components/nav/Navbar";
 import HeroSection from "@/components/hero/HeroSection";
 import AboutSection from "@/components/about/AboutSection";
@@ -14,6 +16,12 @@ export default function Home() {
     <>
       {/* Cinematic loader — unmounts after 1.8s */}
       <LoadingScreen />
+
+      {/* Buttery smooth inertia mouse-wheel scrolling */}
+      <SmoothScroll />
+
+      {/* Fixed background image: stays in place while tiles and cards scroll with parallax */}
+      <FixedBackground />
 
       {/* Ambient Three.js particle background */}
       <BackgroundParticles />
