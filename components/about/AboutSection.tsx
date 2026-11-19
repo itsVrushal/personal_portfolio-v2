@@ -54,10 +54,10 @@ export default function AboutSection() {
           <div className="grid grid-cols-2 gap-8">
             <div>
               <div className="font-syne text-4xl lg:text-5xl font-bold text-text-hi">
-                <Counter to={experience.length} />
+                <Counter to={experience.years} />+
               </div>
               <div className="font-sans text-xs text-text-lo mt-2">
-                Internships / Roles
+                Years of Total Experience
               </div>
             </div>
             <div>

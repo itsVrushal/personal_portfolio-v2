@@ -28,7 +28,7 @@ export default function ExperienceSection() {
 
         {/* One surface, divided rows: the roles read together as a record. */}
         <div className="rounded-2xl border border-border bg-surface/60 overflow-hidden">
-          {experience.map((exp, index) => {
+          {experience.roles.map((exp, index) => {
             const isOpen = !!open[index];
             const panelId = `experience-detail-${index}`;
 

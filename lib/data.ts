@@ -21,37 +21,41 @@ export const address = {
   place: "Pune, India (Remote)",
 };
 
-export const experience = [
-  {
-    company: "AutonexAI360",
-    role: "ML Developer",
-    period: "July 2026 – Sept 2026",
-    description: [
-      "Designed evaluation pipelines and evaluator functions to benchmark ML model outputs (including Yutori N2) against defined quality metrics across model iterations, catching performance regressions before deployment.",
-      "Wrote test scripts validating inference accuracy, keeping model releases stable, testable, and production-ready.",
-    ],
-  },
-  {
-    company: "PTC Pune",
-    role: "AI Engineering Intern",
-    period: "July 2025 – June 2026",
-    description: [
-      "Designed a production-grade multi-agent orchestration layer (LangChain) that autonomously routes and dispatches cross-database queries without human intervention.",
-      "Benchmarked and shipped Redis-backed semantic caching: 801× query speedup (31.9s → 0.03s), 60–90% fewer redundant LLM API calls, and 10–50ms cache-hit latency.",
-      "Built a hybrid RAG pipeline (semantic + keyword retrieval) with a 92% cache hit rate, cutting embedding latency from 67 seconds to sub-second retrieval.",
-      "Optimized end-to-end pipelines processing 1.15M+ tokens, delivering 4.8× faster responses via prompt compression and batching; developed plug-and-play MCP servers.",
-    ],
-  },
-];
+export const experience = {
+  // Jul 2025 → Sep 2026 across both roles: just over a year.
+  years: 2,
+  roles: [
+    {
+      company: "AutonexAI360",
+      role: "ML Developer",
+      period: "July 2026 – Sept 2026",
+      description: [
+        "Designed evaluation pipelines and evaluator functions to benchmark ML model outputs (including Yutori N2) against defined quality metrics across model iterations, catching performance regressions before deployment.",
+        "Wrote test scripts validating inference accuracy, keeping model releases stable, testable, and production-ready.",
+      ],
+    },
+    {
+      company: "PTC Pune",
+      role: "AI Engineer",
+      period: "July 2025 – June 2026",
+      description: [
+        "Designed a production-grade multi-agent orchestration layer (LangChain) that autonomously routes and dispatches cross-database queries without human intervention.",
+        "Benchmarked and shipped Redis-backed semantic caching: 801× query speedup (31.9s → 0.03s), 60–90% fewer redundant LLM API calls, and 10–50ms cache-hit latency.",
+        "Built a hybrid RAG pipeline (semantic + keyword retrieval) with a 92% cache hit rate, cutting embedding latency from 67 seconds to sub-second retrieval.",
+        "Optimized end-to-end pipelines processing 1.15M+ tokens, delivering 4.8× faster responses via prompt compression and batching; developed plug-and-play MCP servers.",
+      ],
+    },
+  ],
+};
 
 export interface Project {
   name: string;
   organization: string;
   category:
-    | "Computer Vision"
-    | "Deep Learning & AI"
-    | "Agentic & Systems"
-    | "Web & Systems";
+  | "Computer Vision"
+  | "Deep Learning & AI"
+  | "Agentic & Systems"
+  | "Web & Systems";
   tech: string[];
   description: string[];
   colab?: string;
