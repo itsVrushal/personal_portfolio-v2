@@ -4,11 +4,11 @@ import { useRef } from "react";
 import { useScroll, useTransform, useSpring, MotionValue } from "framer-motion";
 
 interface Use3DScrollOptions {
-  /** rotateX degrees at the start (before entering view). Default: 10 */
+  /** Retired: a rotateX on tall sections widened the page. Kept so callers type-check. */
   initialRotateX?: number;
-  /** translateY px at the start. Default: 60 */
+  /** translateY px at the start, clamped to 24. Default: 60 */
   initialY?: number;
-  /** Scroll range offset (start, end) as viewport fractions. Default: [0.05, 0.3] */
+  /** Scroll range offset (start, end) as viewport fractions. Default: [0.05, 0.32] */
   range?: [number, number];
   /** Spring config for smoothing */
   spring?: { stiffness?: number; damping?: number };
@@ -24,7 +24,6 @@ export interface ScrollTransformValues {
 
 export function use3DScroll(options: Use3DScrollOptions = {}): ScrollTransformValues {
   const {
-    initialRotateX = 10,
     initialY = 60,
     range = [0.05, 0.32],
     spring = { stiffness: 60, damping: 20 },
@@ -37,32 +36,23 @@ export function use3DScroll(options: Use3DScrollOptions = {}): ScrollTransformVa
     offset: ["start end", "end start"],
   });
 
-  // Map [0..range[0]] -> initial values (entering)
-  // [range[0]..0.75] -> fully visible
-  // [0.75..1] -> exiting (flying towards screen)
-  const rawRotateX = useTransform(
-    scrollYProgress,
-    [0, range[0], 0.75, 1],
-    [initialRotateX, 0, 0, -8]
-  );
-  
+  // A rotateX on a multi-thousand-pixel section, under a perspective parent,
+  // projects its near edge far outside the layout box: it widens the page on
+  // phones and lets a section paint over its neighbour. Keep a gentle
+  // translate-in only. Never move a section into the one before or after it.
+  const rawRotateX = useTransform(scrollYProgress, [0, 1], [0, 0]);
+
   const rawTranslateY = useTransform(
     scrollYProgress,
-    [0, range[0], 0.75, 1],
-    [initialY, 0, 0, -100]
+    [0, range[0], 1],
+    [Math.min(initialY, 24), 0, 0]
   );
-  
-  const rawOpacity = useTransform(
-    scrollYProgress,
-    [0, range[0], 0.7, 0.95],
-    [0, 1, 1, 0]
-  );
-  
-  const rawScale = useTransform(
-    scrollYProgress,
-    [0, range[0], 0.75, 1],
-    [0.9, 1, 1, 1.3]
-  );
+
+  // Content must be visible at rest (no JS, reduced motion, or before scroll).
+  // Keep the reveal in the transform only; never start a section at opacity 0.
+  const rawOpacity = useTransform(scrollYProgress, [0, 1], [1, 1]);
+
+  const rawScale = useTransform(scrollYProgress, [0, 1], [1, 1]);
 
   const rotateX = useSpring(rawRotateX, spring);
   const translateY = useSpring(rawTranslateY, spring);

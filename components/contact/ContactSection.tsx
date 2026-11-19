@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
-import SectionLabel from "../ui/SectionLabel";
+import { useState } from "react";
 import MagneticButton from "../ui/MagneticButton";
 import { personalInfo } from "@/lib/data";
 import { use3DScroll } from "@/lib/use3DScroll";
@@ -35,9 +34,6 @@ export default function ContactSection() {
           viewport={{ once: true, margin: "-5%" }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="flex justify-center mb-6">
-            <SectionLabel label="Contact" />
-          </div>
           <h2 className="font-syne text-5xl md:text-7xl font-bold text-text-hi mb-6 tracking-tighter">
             Let&apos;s build something.
           </h2>
@@ -49,20 +45,14 @@ export default function ContactSection() {
             <div className="relative">
               <MagneticButton
                 onClick={handleCopyEmail}
-                className="font-mono text-lg md:text-2xl text-accent border-b border-accent pb-1 hover:text-text-hi hover:border-text-hi transition-colors"
+                aria-label={`Copy ${personalInfo.email} to clipboard`}
+                className="font-sans text-lg md:text-2xl min-h-11 inline-flex items-center text-accent border-b border-accent pb-1 hover:text-text-hi hover:border-text-hi transition-colors"
               >
                 {personalInfo.email}
               </MagneticButton>
-              {copied && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="absolute -top-10 left-1/2 -translate-x-1/2 bg-surface border border-border text-text-hi text-xs py-1 px-3 rounded-full font-mono shadow-md"
-                >
-                  Copied!
-                </motion.div>
-              )}
+              <span role="status" aria-live="polite" className="sr-only">
+                {copied ? "Email address copied to clipboard." : ""}
+              </span>
             </div>
 
             <div className="flex gap-6 mt-8">
@@ -95,8 +85,8 @@ export default function ContactSection() {
         </motion.div>
       </div>
 
-      <div className="absolute bottom-6 left-0 right-0 text-center font-mono text-[10px] text-text-lo tracking-widest uppercase">
-        &copy; {new Date().getFullYear()} {personalInfo.name} &middot; Made in Pune
+      <div className="absolute bottom-6 left-0 right-0 text-center font-sans text-xs text-text-lo">
+        &copy; {new Date().getFullYear()} {personalInfo.name}, Pune
       </div>
     </motion.section>
   );

@@ -8,6 +8,7 @@
   --color-text-lo: var(--text-lo);
   --color-accent: var(--accent);
   --color-accent-dim: var(--accent-dim);
+  --color-accent-ink: var(--accent-ink);
   --font-syne: var(--font-syne);
   --font-mono: var(--font-mono);
 }
@@ -21,18 +22,69 @@
   --accent: #a84308;
   --accent-dim: rgba(168, 67, 8, 0.08);
   --accent-glow: rgba(168, 67, 8, 0.35);
+  --accent-ink: #fffdf9;
+  --accent-ghost: rgba(168, 67, 8, 0.07);
+  --glow-spot: rgba(194, 94, 26, 0.08);
+  --glow-card: rgba(194, 94, 26, 0.06);
+  --glow-accent: rgba(194, 94, 26, 0.18);
+  --glow-accent-soft: rgba(168, 67, 8, 0.25);
+  --glow-dot: rgba(194, 94, 26, 0.4);
+  --glow-dot-hover: rgba(194, 94, 26, 0.55);
+  --shadow-warm: rgba(140, 115, 90, 0.12);
+  --shadow-warm-soft: rgba(140, 115, 90, 0.06);
+  --shadow-ink: rgba(28, 25, 23, 0.08);
+  --hairline: rgba(165, 135, 105, 0.25);
+  --dot-idle: rgba(165, 135, 105, 0.4);
+  --particle: #c48b4e;
 }
 
 /* 3D perspective is applied per-section via framer-motion inline style */
 /* DO NOT set perspective on html/body — it breaks position:fixed in Chromium */
 
+html {
+  overflow-x: clip;
+  caret-color: var(--accent);
+  scrollbar-color: var(--accent) transparent;
+  scrollbar-width: thin;
+}
+
 body {
   background: var(--bg);
   color: var(--text-lo);
   font-family: var(--font-sans), sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip;
   /* Let JS handle smooth scrolling for better 3D control */
   scroll-behavior: auto;
+}
+
+/* Display heads may not force their container wider than the viewport */
+h1, h2, h3, h4 {
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
+/* Break heads on phrase boundaries; avoid a one-word straggler in body copy */
+h1, h2, h3 {
+  text-wrap: balance;
+}
+p, li {
+  text-wrap: pretty;
+}
+
+/* Keyboard focus is always visible and never animated in */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* A flex column's children default to min-width:auto; long words must not widen the page */
+main > * {
+  min-width: 0;
+}
+
+::selection {
+  background: var(--accent-dim);
+  color: var(--text-hi);
 }
 
 /* Grain overlay */
@@ -55,7 +107,7 @@ body::before {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(165, 135, 105, 0.25);
+  background: var(--hairline);
   border-radius: 2px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -75,5 +127,16 @@ body::before {
 @media (prefers-reduced-motion: no-preference) {
   :root {
     scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

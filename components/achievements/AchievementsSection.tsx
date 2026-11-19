@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import GlassCard from "../ui/GlassCard";
-import SectionLabel from "../ui/SectionLabel";
 import { achievements } from "@/lib/data";
 import { use3DScroll } from "@/lib/use3DScroll";
 
@@ -91,18 +90,17 @@ export default function AchievementsSection() {
     <motion.section
       id="recognition"
       ref={ref as React.RefObject<HTMLElement>}
-      className="py-24 relative"
+      className="py-20 relative"
       style={{ rotateX, y: translateY, opacity, scale }}
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-12">
-          <SectionLabel label="Recognition" />
-          <h2 className="font-syne text-3xl md:text-4xl font-bold text-text-hi">
+          <h2 className="font-syne text-4xl md:text-[3.25rem] leading-[1.05] font-bold text-text-hi">
             Milestones.
           </h2>
         </div>
 
-        <div className="flex overflow-x-auto hide-scrollbar md:grid md:grid-cols-2 gap-6 pb-8 md:pb-0 snap-x snap-mandatory">
+        <div className="flex overflow-x-auto hide-scrollbar md:grid md:grid-cols-3 gap-6 pb-8 md:pb-0 snap-x snap-mandatory">
           {achievements.map((item, index) => (
             <motion.div
               key={index}
@@ -118,7 +116,7 @@ export default function AchievementsSection() {
               className="min-w-[85vw] md:min-w-0 snap-center h-full flex flex-col"
             >
               <GlassCard className="p-6 md:p-7 h-full flex items-center gap-5 group overflow-hidden relative">
-                <div className="w-11 h-11 rounded-xl bg-accent-dim border border-accent/20 flex items-center justify-center text-accent flex-shrink-0 shadow-sm group-hover:scale-105 group-hover:border-accent/40 transition-all duration-300">
+                <div className="w-11 h-11 rounded-xl bg-accent-dim border border-accent/20 flex items-center justify-center text-accent flex-shrink-0 shadow-sm group-hover:scale-105 group-hover:border-accent/40 transition-[transform,border-color] duration-300">
                   <MilestoneIcon index={index} />
                 </div>
                 <div className="flex-grow">
@@ -126,9 +124,6 @@ export default function AchievementsSection() {
                     {item}
                   </p>
                 </div>
-                <span className="font-mono text-xs text-text-lo tracking-widest uppercase opacity-40 flex-shrink-0">
-                  0{index + 1}
-                </span>
               </GlassCard>
             </motion.div>
           ))}

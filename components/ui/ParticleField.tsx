@@ -8,6 +8,17 @@ function Particles({ count = 600 }: { count?: number }) {
   const mesh = useRef<THREE.Points>(null);
   const mouse = useRef({ x: 0, y: 0 });
 
+  // The particle tint is a token: never a literal colour in the view.
+  const particleColor = useMemo(
+    () =>
+      typeof document === "undefined"
+        ? undefined
+        : getComputedStyle(document.documentElement)
+            .getPropertyValue("--particle")
+            .trim(),
+    []
+  );
+
   // Build geometry once
   const [positions, randoms] = useMemo(() => {
     const pos = new Float32Array(count * 3);
@@ -66,7 +77,7 @@ function Particles({ count = 600 }: { count?: number }) {
       </bufferGeometry>
       <pointsMaterial
         size={0.026}
-        color="#c48b4e"
+        color={particleColor}
         transparent
         opacity={0.45}
         sizeAttenuation

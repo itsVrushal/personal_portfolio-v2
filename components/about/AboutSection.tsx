@@ -2,9 +2,8 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
-import SectionLabel from "../ui/SectionLabel";
 import GlassCard from "../ui/GlassCard";
-import { personalInfo, education, projects, experience } from "@/lib/data";
+import { education, projects, experience } from "@/lib/data";
 import { use3DScroll } from "@/lib/use3DScroll";
 
 function Counter({ from = 0, to, duration = 1.2 }: { from?: number; to: number; duration?: number }) {
@@ -36,18 +35,18 @@ export default function AboutSection() {
     <motion.section
       id="about"
       ref={ref as React.RefObject<HTMLElement>}
-      className="py-24 relative"
+      className="pt-28 pb-36 relative"
       style={{ rotateX, y: translateY, opacity, scale }}
     >
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16">
 
         {/* Left — Stats */}
-        <div className="flex flex-col justify-center">
-          <div className="mb-12">
+        <GlassCard className="p-8 min-h-[320px] flex flex-col justify-center">
+          <div className="mb-10">
             <div className="font-syne text-6xl lg:text-8xl font-bold text-text-hi">
               <Counter to={parseFloat(education.cgpa)} />
             </div>
-            <div className="font-mono text-sm tracking-widest uppercase text-accent mt-2">
+            <div className="font-sans text-sm text-accent mt-2">
               Cumulative GPA
             </div>
           </div>
@@ -57,7 +56,7 @@ export default function AboutSection() {
               <div className="font-syne text-4xl lg:text-5xl font-bold text-text-hi">
                 <Counter to={experience.length} />
               </div>
-              <div className="font-mono text-xs tracking-widest uppercase text-text-lo mt-2">
+              <div className="font-sans text-xs text-text-lo mt-2">
                 Internships / Roles
               </div>
             </div>
@@ -65,49 +64,34 @@ export default function AboutSection() {
               <div className="font-syne text-4xl lg:text-5xl font-bold text-text-hi">
                 <Counter to={projects.length} />+
               </div>
-              <div className="font-mono text-xs tracking-widest uppercase text-text-lo mt-2">
+              <div className="font-sans text-xs text-text-lo mt-2">
                 Major Projects
               </div>
             </div>
           </div>
-        </div>
+        </GlassCard>
 
         {/* Right — Bio */}
         <div>
-          <SectionLabel label="About" />
-          <h2 className="font-syne text-3xl md:text-4xl font-bold text-text-hi mb-6">
+          <h2 className="font-syne text-4xl md:text-[3.25rem] leading-[1.05] font-bold text-text-hi mb-6">
             Building systems that think.
           </h2>
-          <p className="text-text-lo text-base leading-relaxed mb-8">
-            {personalInfo.tagline} I am an AI & Systems Developer driven by the challenge of
-            creating intelligent solutions that bridge complex backend infrastructures and scalable machine learning models.
-            Currently pursuing my B.Tech in Artificial Intelligence and Data Science at {education.institution}.
+          <p className="text-text-lo text-base leading-relaxed mb-8 max-w-[65ch]">
+            AI &amp; Systems Developer building intelligent systems that bridge complex
+            backend infrastructure and scalable machine learning. Currently completing a
+            B.Tech in Artificial Intelligence and Data Science at {education.institution}.
           </p>
 
-          <div className="flex flex-wrap gap-2 mb-10">
-            {["AI/ML", "Systems Design", "Backend", "Cloud"].map((chip) => (
-              <span
-                key={chip}
-                className="font-mono text-xs px-3 py-1 rounded-full border border-border bg-surface text-text-hi shadow-[0_2px_8px_rgba(140,115,90,0.04)]"
-              >
-                {chip}
-              </span>
-            ))}
-          </div>
-
           <GlassCard className="p-6">
-            <div className="font-mono text-[10px] tracking-widest text-accent uppercase mb-2">
+            <div className="font-sans text-xs text-accent mb-2">
               Education
             </div>
             <h3 className="font-syne text-lg font-bold text-text-hi mb-1">
               {education.institution}
             </h3>
             <p className="text-text-lo text-sm mb-4">{education.degree}</p>
-            <div className="flex items-center justify-between font-mono text-xs">
+            <div className="flex items-center justify-between font-sans text-sm">
               <span className="text-text-lo">{education.period}</span>
-              <span className="text-accent bg-accent-dim px-2.5 py-0.5 rounded-full font-semibold border border-accent/20">
-                CGPA: {education.cgpa}
-              </span>
             </div>
           </GlassCard>
         </div>

@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import SectionLabel from "../ui/SectionLabel";
 import { skills } from "@/lib/data";
 import { use3DScroll } from "@/lib/use3DScroll";
 
@@ -21,18 +20,17 @@ export default function StackSection() {
     <motion.section
       id="stack"
       ref={ref as React.RefObject<HTMLElement>}
-      className="py-24 relative"
+      className="pt-20 pb-24 relative bg-surface/40 border-y border-border/60"
       style={{ rotateX, y: translateY, opacity, scale }}
     >
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-16">
-          <SectionLabel label="Tech Stack" />
-          <h2 className="font-syne text-3xl md:text-4xl font-bold text-text-hi">
+        <div className="mb-10">
+          <h2 className="font-syne text-4xl md:text-[3.25rem] leading-[1.05] font-bold text-text-hi">
             Tools I think in.
           </h2>
         </div>
 
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col gap-8 md:gap-12">
           {skillGroups.map((group, index) => (
             <motion.div
               key={group.label}
@@ -42,7 +40,7 @@ export default function StackSection() {
               transition={{ duration: 0.5, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
               className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 md:gap-8 items-start"
             >
-              <div className="font-mono text-sm tracking-widest uppercase text-text-lo md:pt-2">
+              <div className="font-sans text-sm text-text-lo md:pt-2">
                 {group.label}
               </div>
 
@@ -58,7 +56,7 @@ export default function StackSection() {
                       delay: index * 0.05 + skillIdx * 0.04,
                       ease: [0.22, 1, 0.36, 1],
                     }}
-                    className="border border-border bg-surface text-text-lo font-mono text-xs px-4 py-2 rounded-full shadow-[0_2px_8px_rgba(140,115,90,0.04)] transition-colors duration-300 hover:border-accent hover:text-accent cursor-default"
+                    className="border border-border bg-surface text-text-lo font-sans text-xs px-4 py-2 rounded-full shadow-[0_2px_8px_var(--shadow-warm-soft)] transition-[border-color,color] duration-300 hover:border-accent hover:text-accent cursor-default"
                   >
                     {skill}
                   </motion.span>

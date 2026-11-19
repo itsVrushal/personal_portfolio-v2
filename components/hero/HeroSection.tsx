@@ -2,9 +2,7 @@
 
 import { useCallback, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import SectionLabel from "../ui/SectionLabel";
 import MagneticButton from "../ui/MagneticButton";
-import { personalInfo } from "@/lib/data";
 
 const VRUSHAL_LETTERS = "VRUSHAL".split("");
 const PATIL_LETTERS = "PATIL".split("");
@@ -19,7 +17,7 @@ export default function HeroSection() {
     const rect = sectionRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    spotlightRef.current.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(194,94,26,0.08) 0%, transparent 60%)`;
+    spotlightRef.current.style.background = `radial-gradient(600px circle at ${x}px ${y}px, var(--glow-spot) 0%, transparent 60%)`;
   }, []);
 
   useEffect(() => {
@@ -34,14 +32,13 @@ export default function HeroSection() {
     target: sectionRef,
     offset: ["start start", "end start"],
   });
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
 
   return (
     <section
       id="home"
       ref={sectionRef}
-      className="min-h-screen flex items-center relative pt-20 overflow-hidden"
+      className="min-h-dvh flex items-center relative pt-20 overflow-hidden"
     >
       {/* Spotlight overlay */}
       <div
@@ -68,26 +65,15 @@ export default function HeroSection() {
       />
 
       <div className="max-w-7xl mx-auto px-6 w-full" style={{ position: "relative", zIndex: 2 }}>
-        <motion.div
-          style={{ y: textY, opacity: textOpacity }}
-        >
+        <motion.div style={{ y: textY }}>
           <div style={{ display: "flex", flexDirection: "column", perspective: "1000px" }}>
-            {/* Eyebrow badge */}
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-flex self-start"
-              style={{ willChange: "transform, opacity" }}
-            >
-              <SectionLabel label="AI & Systems Developer" />
-            </motion.div>
-
-            {/* Seamless unified name: VRUSHAL -> PATIL emergence */}
+            {/* Unified name: VRUSHAL -> PATIL emergence */}
             <h1
               className="font-syne font-black uppercase"
               style={{
-                fontSize: "clamp(3rem, 11vw, 9.5rem)",
+                // Sized to the word, not to the viewport alone: VRUSHAL is
+                // seven wide caps and must clear the 24px gutter on a phone.
+                fontSize: "clamp(2rem, 10vw, 8rem)",
                 lineHeight: 0.88,
                 letterSpacing: "-0.03em",
                 marginBottom: "1.5rem",
@@ -102,15 +88,15 @@ export default function HeroSection() {
                   display: "inline-flex",
                   color: "var(--text-hi)",
                   textShadow:
-                    "0 2px 20px rgba(140,115,90,0.12), 0 1px 3px rgba(28,25,23,0.08)",
+                    "0 2px 20px var(--shadow-warm), 0 1px 3px var(--shadow-ink)",
                   perspective: "1000px",
                 }}
               >
                 {VRUSHAL_LETTERS.map((char, i) => (
                   <motion.span
                     key={`v-${i}`}
-                    initial={{ opacity: 0, y: 28, rotateX: 60, scale: 0.94 }}
-                    animate={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+                    initial={{ y: 28, rotateX: 60, scale: 0.94 }}
+                    animate={{ y: 0, rotateX: 0, scale: 1 }}
                     transition={{
                       duration: 0.55,
                       delay: 0.12 + i * 0.05,
@@ -128,21 +114,21 @@ export default function HeroSection() {
                 ))}
               </span>
 
-              {/* PATIL — buttery 3D slide down emergence */}
+              {/* PATIL — 3D slide down emergence */}
               <span
                 style={{
                   display: "inline-flex",
                   WebkitTextStroke: "2px var(--text-hi)",
-                  color: "rgba(168, 67, 8, 0.07)",
-                  textShadow: "0 8px 30px rgba(168,67,8,0.18)",
+                  color: "var(--accent-ghost)",
+                  textShadow: "0 8px 30px var(--glow-accent)",
                   perspective: "1000px",
                 }}
               >
                 {PATIL_LETTERS.map((char, i) => (
                   <motion.span
                     key={`p-${i}`}
-                    initial={{ opacity: 0, y: -20, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    initial={{ y: -20, scale: 0.96 }}
+                    animate={{ y: 0, scale: 1 }}
                     transition={{
                       duration: 0.65,
                       delay: 0.6 + i * 0.05,
@@ -163,10 +149,10 @@ export default function HeroSection() {
 
             {/* Description */}
             <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ y: 16 }}
+              animate={{ y: 0 }}
               transition={{ duration: 0.6, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
-              className="text-text-lo text-lg md:text-xl max-w-lg"
+              className="text-text-lo text-lg md:text-xl max-w-[60ch]"
               style={{ marginBottom: "2.5rem", lineHeight: 1.6 }}
             >
               Building the future with code, one algorithm at a time. Designing
@@ -175,67 +161,27 @@ export default function HeroSection() {
 
             {/* CTA Buttons */}
             <motion.div
-              initial={{ opacity: 0, y: 16, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
+              initial={{ y: 16, scale: 0.98 }}
+              animate={{ y: 0, scale: 1 }}
               transition={{ duration: 0.5, delay: 1.15, ease: [0.22, 1, 0.36, 1] }}
               style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}
             >
               <MagneticButton
                 href="#projects"
-                className="bg-accent text-white font-bold px-8 py-3 rounded-full hover:bg-accent/90 shadow-[0_4px_16px_rgba(168,67,8,0.25)] transition-all"
+                className="bg-accent text-accent-ink font-bold px-8 py-3 rounded-full hover:bg-accent/90 shadow-[0_4px_16px_var(--glow-accent-soft)] transition-[background-color,box-shadow] duration-300"
               >
                 View Work
               </MagneticButton>
               <MagneticButton
                 href="#contact"
-                className="bg-surface/80 border border-border text-text-hi px-8 py-3 rounded-full hover:bg-surface transition-all shadow-[0_2px_8px_rgba(140,115,90,0.06)]"
+                className="bg-surface/80 border border-border text-text-hi px-8 py-3 rounded-full hover:bg-surface transition-[background-color,box-shadow] duration-300 shadow-[0_2px_8px_var(--shadow-warm-soft)]"
               >
                 Get In Touch
               </MagneticButton>
             </motion.div>
           </div>
         </motion.div>
-
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 1 }}
-        style={{
-          position: "absolute",
-          bottom: "2rem",
-          left: "50%",
-          transform: "translateX(-50%)",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "0.4rem",
-          zIndex: 2,
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "var(--font-mono), monospace",
-            fontSize: "0.55rem",
-            letterSpacing: "0.25em",
-            textTransform: "uppercase",
-            color: "var(--text-lo)",
-          }}
-        >
-          Scroll
-        </span>
-        <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          style={{
-            width: "1px",
-            height: "32px",
-            background: "linear-gradient(to bottom, var(--accent), transparent)",
-          }}
-        />
-      </motion.div>
     </section>
   );
 }

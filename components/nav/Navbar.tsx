@@ -99,7 +99,7 @@ export default function Navbar() {
               bottom: "-0.5rem",
               width: "1px",
               background:
-                "linear-gradient(to bottom, transparent, rgba(165,135,105,0.25) 20%, rgba(165,135,105,0.25) 80%, transparent)",
+                "linear-gradient(to bottom, transparent, var(--hairline) 20%, var(--hairline) 80%, transparent)",
               borderRadius: "1px",
             }}
           />
@@ -132,10 +132,10 @@ export default function Navbar() {
                     backgroundColor: isActive
                       ? "var(--accent)"
                       : isHovered
-                      ? "rgba(194,94,26,0.55)"
-                      : "rgba(165,135,105,0.4)",
+                      ? "var(--glow-dot-hover)"
+                      : "var(--dot-idle)",
                     boxShadow: isActive
-                      ? "0 0 10px 3px rgba(194,94,26,0.4)"
+                      ? "0 0 10px 3px var(--glow-dot)"
                       : "none",
                   }}
                   transition={dotSpring}
@@ -158,10 +158,10 @@ export default function Navbar() {
                       exit={{    opacity: 0, x: -8,   scale: 0.92 }}
                       transition={labelSpring}
                       style={{
-                        fontFamily:    "var(--font-mono), monospace",
-                        fontSize:      "0.6rem",
-                        letterSpacing: "0.22em",
-                        textTransform: "uppercase",
+                        fontFamily:    "var(--font-sans)",
+                        fontSize:      "0.75rem",
+                        letterSpacing: "0",
+                        textTransform: "none",
                         color:         isActive ? "var(--accent)" : "var(--text-hi)",
                         whiteSpace:    "nowrap",
                         willChange:    "transform, opacity",
