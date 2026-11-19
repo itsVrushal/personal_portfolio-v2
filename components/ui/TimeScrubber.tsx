@@ -2,6 +2,7 @@
 
 import { useState, useSyncExternalStore } from "react";
 import { useTimeOfDay, TimePeriod } from "@/lib/useTimeOfDay";
+import { siteConfig } from "@/lib/config";
 
 const emptySubscribe = () => () => {};
 
@@ -14,7 +15,7 @@ export default function TimeScrubber() {
   const { mode, setMode, hour, setSimulatedHour, period, isNight } = useTimeOfDay();
   const [isOpen, setIsOpen] = useState(false);
 
-  if (!mounted) {
+  if (!siteConfig.enableTimeScrubber || !mounted) {
     return null;
   }
 

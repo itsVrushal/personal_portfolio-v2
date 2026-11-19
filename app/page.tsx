@@ -15,6 +15,7 @@ import AchievementsSection from "@/components/achievements/AchievementsSection";
 import ContactSection from "@/components/contact/ContactSection";
 import LoadingScreen from "@/components/ui/LoadingScreen";
 import { TimeProvider } from "@/lib/useTimeOfDay";
+import { siteConfig } from "@/lib/config";
 
 export default function Home() {
   return (
@@ -59,8 +60,8 @@ export default function Home() {
       {/* Dynamic 3D circular flight bird: arrives randomly during day, loops behind elements, swoops forward, then exits */}
       <CircularBird />
 
-      {/* Interactive Celestial Time Controller & Simulation Scrubber (Live System Time + Dawn/Noon/Sunset/Night presets + 24h scrubber) */}
-      <TimeScrubber />
+      {/* Interactive Celestial Time Controller & Simulation Scrubber (Only enabled when siteConfig.enableTimeScrubber is true) */}
+      {siteConfig.enableTimeScrubber && <TimeScrubber />}
     </TimeProvider>
   );
 }
