@@ -47,24 +47,29 @@ export const experience = [
 export interface Project {
   name: string;
   organization: string;
-  category: "Computer Vision" | "Deep Learning & AI" | "Agentic & Systems";
+  category:
+    | "Computer Vision"
+    | "Deep Learning & AI"
+    | "Agentic & Systems"
+    | "Web & Systems";
   tech: string[];
   description: string[];
   colab?: string;
   github?: string;
   link?: string;
+  linkLabel?: string;
 }
 
 export const projects: Project[] = [
   {
-    name: "OSWorld: GIMP Evaluator Fixes (Open Source)",
-    organization: "OSWorld (computer-use agent benchmark) | PR #681",
+    name: "Multi-Agentic AI Orchestration Network",
+    organization: "PTC",
     category: "Agentic & Systems",
-    tech: ["Python", "OpenCV", "Pillow", "NumPy"],
-    link: "https://github.com/xlang-ai/OSWorld/pull/681",
+    tech: ["Python", "LangChain", "Redis", "Snowflake", "PostgreSQL", "MCP"],
     description: [
-      "Fixed GIMP task evaluators in OSWorld (computer-use agent benchmark) that crashed on black or non-square images and could reward the wrong object or an all-green canvas; my patch (#511) was completed by the maintainers and merged into main via #681, with my commit retained.",
-      "Evaluators now validate the actual visible yellow triangle and preserved object pixels; added 22 offline tests (47 passing across adjacent suites), verified against the real task input images.",
+      "Architected an autonomous multi-agent orchestration layer using LangChain, enabling cross-database reasoning across Snowflake and PostgreSQL with dynamic task routing.",
+      "Engineered Redis-backed semantic caching delivering an 801× query speedup (31.9s → 0.03s), slashing redundant LLM API calls by 60–90% and serving cache hits at 10–50ms latency.",
+      "Built a hybrid RAG pipeline (semantic + keyword retrieval) and modular Model Context Protocol (MCP) servers, optimizing pipelines over 1.15M+ tokens with 4.8× faster responses.",
     ],
   },
   {
@@ -88,14 +93,41 @@ export const projects: Project[] = [
     ],
   },
   {
-    name: "Multi-Agentic AI Orchestration Network",
-    organization: "PTC",
-    category: "Agentic & Systems",
-    tech: ["Python", "LangChain", "Redis", "Snowflake", "PostgreSQL", "MCP"],
+    name: "Intelligent Metro Safety & Accident Detection Pipeline",
+    organization: "Pune MahaMetro",
+    category: "Computer Vision",
+    tech: ["Python", "YOLOv8", "PyTorch", "Docker", "OpenCV"],
     description: [
-      "Architected an autonomous multi-agent orchestration layer using LangChain, enabling cross-database reasoning across Snowflake and PostgreSQL with dynamic task routing.",
-      "Engineered Redis-backed semantic caching delivering an 801× query speedup (31.9s → 0.03s), slashing redundant LLM API calls by 60–90% and serving cache hits at 10–50ms latency.",
-      "Built a hybrid RAG pipeline (semantic + keyword retrieval) and modular Model Context Protocol (MCP) servers, optimizing pipelines over 1.15M+ tokens with 4.8× faster responses.",
+      "Trained and evaluated a YOLOv8 computer vision model for real-time platform safety monitoring, reaching 95% detection accuracy on live CCTV feeds for anomaly and accident detection (basis of the patents).",
+      "Built an edge-inference agent that triggers automated safety alerts, and containerized the full ML pipeline with Docker, optimizing inference speed and hardware utilization for resource-constrained deployment.",
+    ],
+  },
+  {
+    name: "Proof-Sheet",
+    organization: "Rust · Leptos · WebAssembly | 2026",
+    category: "Web & Systems",
+    tech: ["Rust", "Leptos", "WebAssembly", "Trunk", "Canvas 2D", "Hacker News API"],
+    link: "https://proof--sheet.vercel.app/",
+    github: "https://github.com/itsVrushal/Proof-Sheet",
+    description: [
+      "Built a fully client-side editorial news sheet in Rust (Leptos 0.8 CSR) compiled to WebAssembly — no JS framework and no server, shipped as static assets on Vercel.",
+      "Wired hourly Hacker News top-5 fetching through gloo-net with a baked-in JSON snapshot fallback, so the sheet renders instantly offline and then refreshes in place.",
+      "Implemented tag inference, search, tag filtering and an expandable story index over the live set, with the palette derived from the lead story.",
+      "Drew a DPR-aware Canvas 2D ink trail that fades like drying ink (disabled under prefers-reduced-motion), and solved a glibc/musl mismatch in the Trunk build to deploy the WASM bundle on Vercel.",
+    ],
+  },
+  {
+    name: "GitHub Activity Tracker",
+    organization: "Go · Templ · HTMX | 2026",
+    category: "Web & Systems",
+    tech: ["Go", "Templ", "HTMX", "GitHub REST API", "Docker", "Go Testing"],
+    link: "https://githubactivitytracker.vercel.app/",
+    github: "https://github.com/itsVrushal/Github-activity-tracker",
+    description: [
+      "Built a Go activity reader that turns any public GitHub username into a live event feed plus a full year of contribution squares, backed by GitHub's public events and profile-contributions endpoints.",
+      "Parsed GitHub's contribution-graph HTML into a calendar model with month labels, level classes and padded week edges, alongside the paginated events API (10 pages / 300 events).",
+      "Added a 2-minute feed cache and 1-hour calendar cache, plus rate-limit detection that surfaces the reset time instead of failing silently.",
+      "Served Templ-rendered HTML fragments to HTMX and JSON from the same handlers, embedded static assets with go:embed, and shipped a multi-stage non-root Docker image with graceful shutdown and parser/handler tests.",
     ],
   },
   {
@@ -110,13 +142,15 @@ export const projects: Project[] = [
     ],
   },
   {
-    name: "Intelligent Metro Safety & Accident Detection Pipeline",
-    organization: "Pune MahaMetro",
-    category: "Computer Vision",
-    tech: ["Python", "YOLOv8", "PyTorch", "Docker", "OpenCV"],
+    name: "OSWorld: GIMP Evaluator Fixes (Open Source)",
+    organization: "OSWorld (computer-use agent benchmark) | PR #681",
+    category: "Agentic & Systems",
+    tech: ["Python", "OpenCV", "Pillow", "NumPy"],
+    link: "https://github.com/xlang-ai/OSWorld/pull/681",
+    linkLabel: "PR",
     description: [
-      "Trained and evaluated a YOLOv8 computer vision model for real-time platform safety monitoring, reaching 95% detection accuracy on live CCTV feeds for anomaly and accident detection (basis of the patents).",
-      "Built an edge-inference agent that triggers automated safety alerts, and containerized the full ML pipeline with Docker, optimizing inference speed and hardware utilization for resource-constrained deployment.",
+      "Fixed GIMP task evaluators in OSWorld (computer-use agent benchmark) that crashed on black or non-square images and could reward the wrong object or an all-green canvas; my patch (#511) was completed by the maintainers and merged into main via #681, with my commit retained.",
+      "Evaluators now validate the actual visible yellow triangle and preserved object pixels; added 22 offline tests (47 passing across adjacent suites), verified against the real task input images.",
     ],
   },
   {
@@ -132,27 +166,15 @@ export const projects: Project[] = [
     ],
   },
   {
-    name: "Autonomous Women Safety & Harassment Surveillance",
-    organization: "Video Analytics & Public Safety",
-    category: "Computer Vision",
-    tech: ["PyTorch", "YOLOv5", "OpenCV", "Video Processing", "Real-Time Inference"],
-    colab: "https://colab.research.google.com/drive/1DCSLXlu-JABWnB6B6dR1pD4bpNibDZ0J?usp=sharing",
+    name: "Cyberbullying Detection",
+    organization: "Springer LNNS / Vishwakarma Institute of Technology",
+    category: "Deep Learning & AI",
+    tech: ["Python", "Scikit-learn", "NLP", "TF-IDF", "Ensemble Learning", "Springer LNNS"],
     description: [
-      "Built an autonomous video analytics pipeline powered by a custom-trained YOLOv5 detector to classify surveillance feeds into harassment vs. safe public interactions.",
-      "Implemented frame-by-frame inference with dynamic bounding-box visual overlays, confidence thresholding, and real-time incident categorization.",
-      "Automated video compilation with OpenCV VideoWriter, exporting fully annotated incident monitoring streams for rapid security intervention.",
-    ],
-  },
-  {
-    name: "Deep Transfer Learning for Harassment Localization",
-    organization: "Computer Vision & Surveillance AI",
-    category: "Computer Vision",
-    tech: ["TensorFlow", "DenseNet121", "OpenCV", "Pascal VOC XML", "Smooth L1 Loss"],
-    colab: "https://colab.research.google.com/drive/1n-mUCxxbnIQt1k6rYJ9LxMuYIN5poOby?usp=sharing",
-    description: [
-      "Architected a deep convolutional bounding-box regression model utilizing a DenseNet121 backbone to localize physical harassment incidents in surveillance frames.",
-      "Developed a streaming batch data generator parsing Pascal VOC XML annotations with real-time coordinate normalization and image preprocessing.",
-      "Trained utilizing Smooth L1 loss and mean Intersection over Union (IoU) evaluation, featuring a custom callback to automatically checkpoint peak validation IoU weights.",
+      "Engineered an end-to-end NLP classification pipeline benchmarking 9 machine learning algorithms across 47,000+ multi-class social media and Twitter/X records.",
+      "Formulated advanced text preprocessing using tokenization, lemmatization, stop-word filtering, and TF-IDF feature extraction to capture nuanced linguistic patterns.",
+      "Achieved 92.92% accuracy and 94.5% F1-score with an optimized Ensemble Bagging Classifier, outperforming standard baseline classification models.",
+      "Authored and published peer-reviewed research in Springer Lecture Notes in Networks and Systems (LNNS), Scopus-indexed (ICTIS 2024).",
     ],
   },
   {
@@ -165,6 +187,31 @@ export const projects: Project[] = [
       "Architected an industrial predictive maintenance deep network utilizing stacked LSTM layers with dropout regularization to predict Remaining Useful Life (RUL) of aircraft jet engines.",
       "Engineered multi-sensor time-series pipelines on NASA C-MAPSS run-to-failure telemetry using MinMax feature scaling and 60-cycle sliding-window sequence generators.",
       "Achieved a test Mean Absolute Error (MAE) of 12.40 operational cycles and an R² score of 0.756 (75.64%) on unseen test jet engine degradation profiles.",
+    ],
+  },
+  {
+    name: "Capacitated Vehicle Routing Optimization (CVRP)",
+    organization: "Operations Research & Geospatial AI",
+    category: "Agentic & Systems",
+    tech: ["Python", "TLBO Algorithm", "Bing Maps API", "Folium", "SciPy", "Pandas"],
+    colab: "https://colab.research.google.com/drive/1pJKc40fl8vdskATPUnYom1fIVGQCf7td?usp=sharing",
+    description: [
+      "Formulated a Teaching-Learning-Based Optimization (TLBO) metaheuristic to solve the Capacitated Vehicle Routing Problem (CVRP) across distributed depots, warehouses, and delivery nodes.",
+      "Integrated Bing Maps REST API for real-time driving route matrix calculation, duration estimation, and polyline coordinate fetching under realistic road network conditions.",
+      "Enforced hard truck payload limits (4,000 kg capacity) and driver operational thresholds (9-hour maximum shift limit with 30-min per-stop delivery latency penalty).",
+      "Rendered dynamic, interactive multi-fleet GPS routes and depot markers using Folium GIS mapping for logistics visualization.",
+    ],
+  },
+  {
+    name: "Deep Transfer Learning for Harassment Localization",
+    organization: "Computer Vision & Surveillance AI",
+    category: "Computer Vision",
+    tech: ["TensorFlow", "DenseNet121", "OpenCV", "Pascal VOC XML", "Smooth L1 Loss"],
+    colab: "https://colab.research.google.com/drive/1n-mUCxxbnIQt1k6rYJ9LxMuYIN5poOby?usp=sharing",
+    description: [
+      "Architected a deep convolutional bounding-box regression model utilizing a DenseNet121 backbone to localize physical harassment incidents in surveillance frames.",
+      "Developed a streaming batch data generator parsing Pascal VOC XML annotations with real-time coordinate normalization and image preprocessing.",
+      "Trained utilizing Smooth L1 loss and mean Intersection over Union (IoU) evaluation, featuring a custom callback to automatically checkpoint peak validation IoU weights.",
     ],
   },
   {
@@ -192,28 +239,15 @@ export const projects: Project[] = [
     ],
   },
   {
-    name: "Capacitated Vehicle Routing Optimization (CVRP)",
-    organization: "Operations Research & Geospatial AI",
-    category: "Agentic & Systems",
-    tech: ["Python", "TLBO Algorithm", "Bing Maps API", "Folium", "SciPy", "Pandas"],
-    colab: "https://colab.research.google.com/drive/1pJKc40fl8vdskATPUnYom1fIVGQCf7td?usp=sharing",
+    name: "Autonomous Women Safety & Harassment Surveillance",
+    organization: "Video Analytics & Public Safety",
+    category: "Computer Vision",
+    tech: ["PyTorch", "YOLOv5", "OpenCV", "Video Processing", "Real-Time Inference"],
+    colab: "https://colab.research.google.com/drive/1DCSLXlu-JABWnB6B6dR1pD4bpNibDZ0J?usp=sharing",
     description: [
-      "Formulated a Teaching-Learning-Based Optimization (TLBO) metaheuristic to solve the Capacitated Vehicle Routing Problem (CVRP) across distributed depots, warehouses, and delivery nodes.",
-      "Integrated Bing Maps REST API for real-time driving route matrix calculation, duration estimation, and polyline coordinate fetching under realistic road network conditions.",
-      "Enforced hard truck payload limits (4,000 kg capacity) and driver operational thresholds (9-hour maximum shift limit with 30-min per-stop delivery latency penalty).",
-      "Rendered dynamic, interactive multi-fleet GPS routes and depot markers using Folium GIS mapping for logistics visualization.",
-    ],
-  },
-  {
-    name: "Cyberbullying Detection",
-    organization: "Springer LNNS / Vishwakarma Institute of Technology",
-    category: "Deep Learning & AI",
-    tech: ["Python", "Scikit-learn", "NLP", "TF-IDF", "Ensemble Learning", "Springer LNNS"],
-    description: [
-      "Engineered an end-to-end NLP classification pipeline benchmarking 9 machine learning algorithms across 47,000+ multi-class social media and Twitter/X records.",
-      "Formulated advanced text preprocessing using tokenization, lemmatization, stop-word filtering, and TF-IDF feature extraction to capture nuanced linguistic patterns.",
-      "Achieved 92.92% accuracy and 94.5% F1-score with an optimized Ensemble Bagging Classifier, outperforming standard baseline classification models.",
-      "Authored and published peer-reviewed research in Springer Lecture Notes in Networks and Systems (LNNS), Scopus-indexed (ICTIS 2024).",
+      "Built an autonomous video analytics pipeline powered by a custom-trained YOLOv5 detector to classify surveillance feeds into harassment vs. safe public interactions.",
+      "Implemented frame-by-frame inference with dynamic bounding-box visual overlays, confidence thresholding, and real-time incident categorization.",
+      "Automated video compilation with OpenCV VideoWriter, exporting fully annotated incident monitoring streams for rapid security intervention.",
     ],
   },
   {
@@ -258,7 +292,7 @@ export const patents = [
 ];
 
 export const skills = {
-  languages: ["Python", "SQL", "Java", "C", "TypeScript"],
+  languages: ["Python", "Go", "Rust", "SQL", "Java", "C", "TypeScript"],
   agentic_ai: [
     "LangChain",
     "Multi-Agent Orchestration",
@@ -304,11 +338,21 @@ export const skills = {
     "FastAPI",
     "Flask",
     "REST APIs",
+    "Go net/http",
     "WebRTC",
     "RTSP (go2rtc)",
     "Edge Gateways",
     "WireGuard / VPNs",
     "Folium / GIS APIs",
+  ],
+  web_interfaces: [
+    "Leptos (Rust / WASM)",
+    "Trunk",
+    "Templ",
+    "HTMX",
+    "Canvas 2D",
+    "Responsive CSS",
+    "Vercel",
   ],
   // Backwards-compatible aliases
   ai_llm: [

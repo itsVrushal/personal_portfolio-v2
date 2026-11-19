@@ -1,13 +1,71 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import GlassCard from "../ui/GlassCard";
 import { projects, personalInfo, Project } from "@/lib/data";
 import { use3DScroll } from "@/lib/use3DScroll";
 
-const CATEGORIES = ["All", "Computer Vision", "Deep Learning & AI", "Agentic & Systems"] as const;
+const CATEGORIES = [
+  "All",
+  "Computer Vision",
+  "Deep Learning & AI",
+  "Agentic & Systems",
+  "Web & Systems",
+] as const;
 type Category = (typeof CATEGORIES)[number];
+
+function LinkChip({
+  url,
+  label,
+  title,
+  icon,
+}: {
+  url: string;
+  label: string;
+  title: string;
+  icon: ReactNode;
+}) {
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={title}
+      title={title}
+      className="inline-flex items-center gap-1.5 font-sans text-[11px] font-bold px-3 py-1 rounded-full bg-surface text-text-hi border border-border hover:border-accent hover:text-accent transition-[color,border-color] duration-300 flex-shrink-0"
+    >
+      {icon}
+      <span>{label}</span>
+    </a>
+  );
+}
+
+function ExternalIcon() {
+  return (
+    <svg
+      className="w-3 h-3 flex-shrink-0"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M7 17 17 7" />
+      <path d="M8 7h9v9" />
+    </svg>
+  );
+}
+
+function GithubIcon() {
+  return (
+    <svg className="w-3.5 h-3.5 fill-current flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5Z" />
+    </svg>
+  );
+}
 
 function ColabLink({ url, projectName }: { url: string; projectName: string }) {
   return (
@@ -59,7 +117,7 @@ export default function ProjectsSection() {
           </div>
 
           {/* Category Filter Pills */}
-          <div className="flex flex-wrap gap-2" role="tablist" aria-label="Project categories">
+          <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="Project categories">
             {CATEGORIES.map((cat) => {
               const isActive = activeCategory === cat;
               const count =
@@ -73,7 +131,7 @@ export default function ProjectsSection() {
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActiveCategory(cat)}
-                  className={`font-sans text-xs px-3.5 py-1.5 rounded-full transition-[background-color,color,box-shadow] duration-300 flex items-center gap-2 cursor-pointer ${
+                  className={`font-sans text-xs px-3 py-1.5 rounded-full transition-[background-color,color,box-shadow] duration-300 flex items-center gap-2 cursor-pointer ${
                     isActive
                       ? "bg-accent text-accent-ink font-bold shadow-[0_4px_16px_var(--glow-accent-soft)]"
                       : "bg-surface text-text-hi hover:bg-surface/80 border border-border"
@@ -117,12 +175,9 @@ export default function ProjectsSection() {
                     <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                     <div className="flex flex-col min-w-0">
-                      <div className="flex items-start justify-between gap-3">
-                        <h3 className="font-syne text-2xl font-bold text-text-hi flex-grow min-w-0">
-                          {project.name}
-                        </h3>
-                        {project.colab && <ColabLink url={project.colab} projectName={project.name} />}
-                      </div>
+                      <h3 className="font-syne text-2xl font-bold text-text-hi">
+                        {project.name}
+                      </h3>
 
                       <p className="font-sans text-xs text-text-lo mt-2">
                         {project.organization}
@@ -139,27 +194,57 @@ export default function ProjectsSection() {
                         ))}
                       </div>
 
-                      <button
-                        type="button"
-                        onClick={() => toggle(key)}
-                        aria-expanded={isOpen}
-                        aria-controls={panelId}
-                        className="mt-5 inline-flex items-center gap-1.5 min-h-11 w-fit font-sans text-xs font-bold text-text-hi border-b border-border hover:text-accent hover:border-accent transition-[color,border-color] duration-300 cursor-pointer"
-                      >
-                        {isOpen ? "Hide details" : "Details"}
-                        <svg
-                          className={`w-3 h-3 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          aria-hidden="true"
+                      <div className="mt-5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+                        <button
+                          type="button"
+                          onClick={() => toggle(key)}
+                          aria-expanded={isOpen}
+                          aria-controls={panelId}
+                          className="inline-flex items-center gap-1.5 min-h-11 w-fit font-sans text-xs font-bold text-text-hi border-b border-border hover:text-accent hover:border-accent transition-[color,border-color] duration-300 cursor-pointer"
                         >
-                          <path d="m6 9 6 6 6-6" />
-                        </svg>
-                      </button>
+                          {isOpen ? "Hide details" : "Details"}
+                          <svg
+                            className={`w-3 h-3 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                          >
+                            <path d="m6 9 6 6 6-6" />
+                          </svg>
+                        </button>
+
+                        {(project.link || project.github || project.colab) && (
+                          <div className="flex flex-wrap items-center justify-end gap-2">
+                            {project.link && (
+                              <LinkChip
+                                url={project.link}
+                                label={project.linkLabel ?? "Live"}
+                                title={
+                                  project.linkLabel === "PR"
+                                    ? `Open the ${project.name} pull request`
+                                    : `Open the live ${project.name} site`
+                                }
+                                icon={<ExternalIcon />}
+                              />
+                            )}
+                            {project.github && (
+                              <LinkChip
+                                url={project.github}
+                                label="Code"
+                                title={`View ${project.name} source on GitHub`}
+                                icon={<GithubIcon />}
+                              />
+                            )}
+                            {project.colab && (
+                              <ColabLink url={project.colab} projectName={project.name} />
+                            )}
+                          </div>
+                        )}
+                      </div>
 
                       <AnimatePresence initial={false}>
                         {isOpen && (

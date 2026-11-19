@@ -14,6 +14,7 @@ export default function StackSection() {
     { label: "MLOps & Infrastructure", items: skills.mlops_infra },
     { label: "Databases & Vector Stores", items: skills.databases_vectors },
     { label: "Backend & Networking", items: skills.backend_networking },
+    { label: "Web & Interfaces", items: skills.web_interfaces },
   ];
 
   return (
