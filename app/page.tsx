@@ -1,5 +1,6 @@
 import BackgroundParticles from "@/components/ui/BackgroundParticles";
 import FixedBackground from "@/components/ui/FixedBackground";
+import LivingLandscape from "@/components/ui/LivingLandscape";
 import SmoothScroll from "@/components/ui/SmoothScroll";
 import Navbar from "@/components/nav/Navbar";
 import HeroSection from "@/components/hero/HeroSection";
@@ -23,6 +24,9 @@ export default function Home() {
       {/* Fixed background image: stays in place while tiles and cards scroll with parallax */}
       <FixedBackground />
 
+      {/* Living landscape: Background layer (birds flying behind text, flowing river shimmer, walking stag) */}
+      <LivingLandscape layer="behind" />
+
       {/* Ambient Three.js particle background */}
       <BackgroundParticles />
 
@@ -41,6 +45,9 @@ export default function Home() {
         <AchievementsSection />
         <ContactSection />
       </main>
+
+      {/* Living landscape: Foreground layer (soaring hawk flying above text & cards) */}
+      <LivingLandscape layer="front" />
     </>
   );
 }

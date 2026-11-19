@@ -123,6 +123,136 @@ body::before {
   scrollbar-width: none;
 }
 
+/* ============================================================
+   LIVING LANDSCAPE ANIMATIONS (Birds, Flowing River, Walking Stag)
+   All use transform3d & opacity for 60fps GPU compositor performance
+   ============================================================ */
+
+/* Bird wing flap cycle */
+@keyframes birdWingFar {
+  0%, 100% {
+    transform: rotate(-32deg) scaleY(0.95);
+  }
+  50% {
+    transform: rotate(38deg) scaleY(0.7);
+  }
+}
+
+@keyframes birdWingNear {
+  0%, 100% {
+    transform: rotate(-36deg) scaleY(1);
+  }
+  50% {
+    transform: rotate(44deg) scaleY(0.75);
+  }
+}
+
+/* Distant flock crossing mountain peaks (behind text/cards) */
+@keyframes flightFlock {
+  0% {
+    transform: translate3d(-12vw, 0, 0);
+  }
+  25% {
+    transform: translate3d(18vw, -14px, 0);
+  }
+  50% {
+    transform: translate3d(48vw, 6px, 0);
+  }
+  75% {
+    transform: translate3d(78vw, -10px, 0);
+  }
+  100% {
+    transform: translate3d(114vw, 0, 0);
+  }
+}
+
+/* Foreground soaring hawk swooping in front of text & cards */
+@keyframes flightHawk {
+  0% {
+    transform: translate3d(-15vw, 0, 0) scale(0.92);
+  }
+  25% {
+    transform: translate3d(15vw, 24px, 0) scale(1.06);
+  }
+  50% {
+    transform: translate3d(48vw, -12px, 0) scale(1.12);
+  }
+  75% {
+    transform: translate3d(80vw, 16px, 0) scale(1.04);
+  }
+  100% {
+    transform: translate3d(115vw, -6px, 0) scale(0.95);
+  }
+}
+
+/* Stag walk cycle & path */
+@keyframes stagLegBackLeft {
+  0% { transform: rotate(-18deg); }
+  50% { transform: rotate(18deg); }
+  100% { transform: rotate(-18deg); }
+}
+@keyframes stagLegFrontLeft {
+  0% { transform: rotate(16deg); }
+  50% { transform: rotate(-16deg); }
+  100% { transform: rotate(16deg); }
+}
+@keyframes stagLegBackRight {
+  0% { transform: rotate(18deg); }
+  50% { transform: rotate(-18deg); }
+  100% { transform: rotate(18deg); }
+}
+@keyframes stagLegFrontRight {
+  0% { transform: rotate(-16deg); }
+  50% { transform: rotate(16deg); }
+  100% { transform: rotate(-16deg); }
+}
+@keyframes stagBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2.5px); }
+}
+@keyframes stagHead {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(3deg); }
+}
+@keyframes stagWalkPath {
+  0% {
+    transform: translate3d(108vw, 0, 0);
+  }
+  38% {
+    transform: translate3d(62vw, 0, 0);
+  }
+  50% {
+    transform: translate3d(62vw, 0, 0);
+  }
+  75% {
+    transform: translate3d(24vw, 0, 0);
+  }
+  100% {
+    transform: translate3d(-18vw, 0, 0);
+  }
+}
+
+/* River current drift & water glints */
+@keyframes riverDrift1 {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(40px, -2px, 0); }
+  100% { transform: translate3d(80px, 0, 0); }
+}
+@keyframes riverDrift2 {
+  0% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(-35px, 2px, 0); }
+  100% { transform: translate3d(-70px, 0, 0); }
+}
+@keyframes waterSparkle {
+  0%, 100% { opacity: 0.12; transform: scale(0.85); }
+  50% { opacity: 0.72; transform: scale(1.15); }
+}
+@keyframes riverMist {
+  0% { transform: translate3d(-4%, 0, 0); }
+  50% { transform: translate3d(4%, -3px, 0); }
+  100% { transform: translate3d(-4%, 0, 0); }
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
   :root {
