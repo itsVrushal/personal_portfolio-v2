@@ -1,7 +1,9 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 interface SkyBirdsProps {
-  /** "behind": distant flock flying behind text/cards; "front": solitary raptor soaring in front of text/cards */
+  /** "behind": distant flock flying behind text/cards; "front": solitary raptors soaring in front of text/cards */
   layer: "behind" | "front";
 }
 
@@ -77,23 +79,28 @@ function SingleBird({
 
 export default function SkyBirds({ layer }: SkyBirdsProps) {
   if (layer === "behind") {
-    // Distant flock flying high near the mountain peaks (behind page content)
+    // Distant flock flying high near the mountain peaks (strictly behind page content)
     return (
       <div
         className="fixed inset-0 pointer-events-none overflow-hidden select-none"
         style={{ zIndex: 0, position: "fixed" }}
         aria-hidden="true"
       >
-        {/* Flock container flying across from left to right */}
-        <div
+        {/* Flock container 1 — enters immediately on page load */}
+        <motion.div
+          initial={{ x: "-6vw" }}
+          animate={{ x: "125vw" }}
+          transition={{
+            duration: 22,
+            repeat: Infinity,
+            ease: "linear",
+          }}
           style={{
             position: "absolute",
             top: "16vh",
             left: 0,
-            animation: "flightFlock 34s linear infinite",
-            animationDelay: "2s",
+            opacity: 0.68,
             willChange: "transform",
-            opacity: 0.65,
           }}
         >
           {/* Leader bird */}
@@ -115,18 +122,24 @@ export default function SkyBirds({ layer }: SkyBirdsProps) {
           <div style={{ position: "absolute", transform: "translate(-82px, 8px)" }}>
             <SingleBird scale={0.42} flapDuration={0.44} flapDelay={0.18} tilt={-3} />
           </div>
-        </div>
+        </motion.div>
 
-        {/* Second flock at a higher altitude, entering with offset */}
-        <div
+        {/* Second flock at higher altitude with staggered delay */}
+        <motion.div
+          initial={{ x: "-18vw" }}
+          animate={{ x: "125vw" }}
+          transition={{
+            duration: 28,
+            repeat: Infinity,
+            ease: "linear",
+            delay: 9,
+          }}
           style={{
             position: "absolute",
             top: "9vh",
             left: 0,
-            animation: "flightFlock 42s linear infinite",
-            animationDelay: "19s",
+            opacity: 0.52,
             willChange: "transform",
-            opacity: 0.48,
           }}
         >
           <div style={{ position: "absolute", transform: "translate(0px, 0px)" }}>
@@ -138,7 +151,7 @@ export default function SkyBirds({ layer }: SkyBirdsProps) {
           <div style={{ position: "absolute", transform: "translate(-60px, -6px)" }}>
             <SingleBird scale={0.32} flapDuration={0.43} flapDelay={0.22} tilt={-1} />
           </div>
-        </div>
+        </motion.div>
       </div>
     );
   }
@@ -150,49 +163,69 @@ export default function SkyBirds({ layer }: SkyBirdsProps) {
       style={{ zIndex: 20, position: "fixed" }}
       aria-hidden="true"
     >
-      <div
+      {/* Primary Soaring Hawk — enters quickly on reload, swooping in front of hero text & cards */}
+      <motion.div
+        initial={{ x: "-8vw", y: 0, scale: 0.95 }}
+        animate={{
+          x: ["-8vw", "20vw", "54vw", "86vw", "125vw"],
+          y: [0, 24, -14, 18, -6],
+          scale: [0.95, 1.08, 1.15, 1.04, 0.95],
+        }}
+        transition={{
+          duration: 17,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 0.2,
+        }}
         style={{
           position: "absolute",
           top: "28vh",
           left: 0,
-          animation: "flightHawk 24s cubic-bezier(0.4, 0, 0.2, 1) infinite",
-          animationDelay: "8s",
-          willChange: "transform",
-          opacity: 0.88,
+          opacity: 0.9,
           filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25))",
+          willChange: "transform",
         }}
       >
-        {/* Soaring Hawk with wide wingspan */}
         <SingleBird
-          scale={1.12}
+          scale={1.14}
           flapDuration={0.58}
           flapDelay={0}
-          tilt={-6}
+          tilt={-5}
           color="#12181d"
         />
-      </div>
+      </motion.div>
 
-      {/* Second solo raptor later in cycle on lower trajectory */}
-      <div
+      {/* Secondary Solo Raptor on lower trajectory with staggered entry */}
+      <motion.div
+        initial={{ x: "-18vw", y: 0, scale: 0.9 }}
+        animate={{
+          x: ["-18vw", "24vw", "58vw", "88vw", "125vw"],
+          y: [0, -16, 20, -12, 0],
+          scale: [0.9, 1.02, 1.08, 1.0, 0.9],
+        }}
+        transition={{
+          duration: 22,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 8,
+        }}
         style={{
           position: "absolute",
           top: "42vh",
           left: 0,
-          animation: "flightHawk 28s cubic-bezier(0.35, 0, 0.25, 1) infinite",
-          animationDelay: "22s",
-          willChange: "transform",
           opacity: 0.84,
           filter: "drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2))",
+          willChange: "transform",
         }}
       >
         <SingleBird
-          scale={0.94}
+          scale={0.96}
           flapDuration={0.52}
           flapDelay={0.1}
           tilt={-4}
           color="#162026"
         />
-      </div>
+      </motion.div>
     </div>
   );
 }

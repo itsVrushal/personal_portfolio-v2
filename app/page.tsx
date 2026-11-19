@@ -1,4 +1,5 @@
 import BackgroundParticles from "@/components/ui/BackgroundParticles";
+import CircularBird from "@/components/ui/CircularBird";
 import FixedBackground from "@/components/ui/FixedBackground";
 import LivingLandscape from "@/components/ui/LivingLandscape";
 import SmoothScroll from "@/components/ui/SmoothScroll";
@@ -48,6 +49,9 @@ export default function Home() {
 
       {/* Living landscape: Foreground layer (soaring hawk flying above text & cards) */}
       <LivingLandscape layer="front" />
+
+      {/* Dynamic 3D circular flight bird: arrives randomly, loops behind elements, swoops forward, then exits */}
+      <CircularBird />
     </>
   );
 }

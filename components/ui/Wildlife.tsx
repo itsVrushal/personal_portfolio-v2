@@ -1,5 +1,7 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 export default function Wildlife() {
   return (
     <div
@@ -7,17 +9,25 @@ export default function Wildlife() {
       style={{ zIndex: 0, position: "fixed", height: "35vh" }}
       aria-hidden="true"
     >
-      {/* Stag container walking along the riverbank meadow */}
-      <div
+      {/* Stag container walking along the riverbank meadow — Framer Motion smooth linear loop */}
+      <motion.div
+        initial={{ x: "125vw" }}
+        animate={{
+          x: ["125vw", "62vw", "62vw", "24vw", "-25vw"],
+        }}
+        transition={{
+          duration: 52,
+          repeat: Infinity,
+          ease: "linear",
+          times: [0, 0.38, 0.5, 0.75, 1],
+        }}
         style={{
           position: "absolute",
           bottom: "16vh",
           left: 0,
-          animation: "stagWalkPath 52s linear infinite",
-          animationDelay: "5s",
-          willChange: "transform",
           opacity: 0.82,
           filter: "drop-shadow(0 2px 4px rgba(20, 30, 35, 0.4))",
+          willChange: "transform",
         }}
       >
         <div style={{ width: 68, height: 52 }}>
@@ -110,7 +120,7 @@ export default function Wildlife() {
             </g>
           </svg>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
