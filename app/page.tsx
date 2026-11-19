@@ -17,9 +17,16 @@ import LoadingScreen from "@/components/ui/LoadingScreen";
 import { TimeProvider } from "@/lib/useTimeOfDay";
 import { siteConfig } from "@/lib/config";
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
+  const now = new Date();
+  const initialHour = Number(
+    (now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600).toFixed(4)
+  );
+
   return (
-    <TimeProvider>
+    <TimeProvider initialHour={initialHour}>
       {/* Cinematic loader — unmounts after 1.8s */}
       <LoadingScreen />
 

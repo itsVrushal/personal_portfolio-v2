@@ -32,6 +32,7 @@ export default function RiverWater() {
     >
       {/* Primary River Caustic Currents (continuous full-width flow, no vertical tiling seams) */}
       <div
+        suppressHydrationWarning
         style={{
           position: "absolute",
           inset: "-20px",

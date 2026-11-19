@@ -25,6 +25,7 @@ export default function FixedBackground() {
         height: "100vh",
       }}
       aria-hidden="true"
+      suppressHydrationWarning
     >
       {/* Base landscape wallpaper: stays completely static while tiles and cards scroll */}
       <div
@@ -36,6 +37,7 @@ export default function FixedBackground() {
           transition: "filter 1.2s ease-out, opacity 1s ease-out",
           willChange: "filter, opacity",
         }}
+        suppressHydrationWarning
       >
         <Image
           src={BACKGROUND_IMAGE_URL}

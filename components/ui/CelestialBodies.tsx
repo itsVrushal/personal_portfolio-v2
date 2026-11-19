@@ -77,8 +77,14 @@ export default function CelestialBodies() {
   return (
     <div
       className="fixed inset-0 pointer-events-none select-none overflow-hidden"
-      style={{ zIndex: 0, position: "fixed" }}
+      style={{
+        zIndex: 0,
+        position: "fixed",
+        animation: "celestialFadeIn 0.7s ease-out forwards",
+        willChange: "opacity",
+      }}
       aria-hidden="true"
+      suppressHydrationWarning
     >
       {/* ============================================================== */}
       {/* LAYER 1: CELESTIAL SKY APERTURE                                */}
@@ -92,19 +98,22 @@ export default function CelestialBodies() {
           clipPath: SKY_CLIP_PATH,
           WebkitClipPath: SKY_CLIP_PATH,
         }}
+        suppressHydrationWarning
       >
         {/* Dynamic Sky Gradient (Dawn glow, Sunset amber, Night indigo) */}
         <div
           className="absolute inset-0 transition-opacity duration-1000 ease-out"
           style={{ background: themeTint.skyGradient }}
+          suppressHydrationWarning
         />
 
         {/* Twinkling Night Stars (visible when night) */}
         {isNight && (
-          <div className="absolute inset-0">
+          <div className="absolute inset-0" suppressHydrationWarning>
             {NIGHT_STARS.map((star, i) => (
               <div
                 key={i}
+                suppressHydrationWarning
                 style={{
                   position: "absolute",
                   left: `${star.x}%`,
@@ -126,6 +135,7 @@ export default function CelestialBodies() {
         {/* THE SUN */}
         {sunVisible && (
           <div
+            suppressHydrationWarning
             style={{
               position: "absolute",
               left: `${sunX}%`,
@@ -157,6 +167,7 @@ export default function CelestialBodies() {
         {/* THE MOON */}
         {moonVisible && (
           <div
+            suppressHydrationWarning
             style={{
               position: "absolute",
               left: `${moonX}%`,
@@ -232,6 +243,7 @@ export default function CelestialBodies() {
         style={{
           background: themeTint.ambientScrim,
         }}
+        suppressHydrationWarning
       />
     </div>
   );

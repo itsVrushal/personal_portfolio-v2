@@ -44,7 +44,11 @@ function calculateSunPosition(h: number) {
   const x = 14 + 72 * p;
   // Parabolic Y: 3.5% at noon (p=0.5), 26% at sunrise/sunset (safely behind mountain summits at 8.5%-11%)
   const y = 3.5 + 90 * Math.pow(p - 0.5, 2);
-  return { visible: true, x, y };
+  return {
+    visible: true,
+    x: Number(x.toFixed(4)),
+    y: Number(y.toFixed(4)),
+  };
 }
 
 // Moonrise: 18.5 (East/Right), Midnight: 00:00 (Zenith), Moonset: 06.5 (West/Left)
@@ -63,7 +67,11 @@ function calculateMoonPosition(h: number) {
   const p = 1 - t; // 1 is East/Right, 0 is West/Left
   const x = 14 + 72 * p;
   const y = 4.5 + 86 * Math.pow(p - 0.5, 2);
-  return { visible: true, x, y };
+  return {
+    visible: true,
+    x: Number(x.toFixed(4)),
+    y: Number(y.toFixed(4)),
+  };
 }
 
 function getPeriod(h: number): TimePeriod {
@@ -119,16 +127,27 @@ function getThemeTint(period: TimePeriod) {
   }
 }
 
-export function TimeProvider({ children }: { children: ReactNode }) {
+function getSystemHour(): number {
+  const now = new Date();
+  return now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600;
+}
+
+export function TimeProvider({
+  children,
+  initialHour,
+}: {
+  children: ReactNode;
+  initialHour?: number;
+}) {
   const [mode, setMode] = useState<"live" | "simulated">("live");
-  const [simulatedHour, setSimulatedHour] = useState<number>(12); // Default simulated: noon
-  const [liveHour, setLiveHour] = useState<number>(12);
+  const fallbackHour = initialHour ?? getSystemHour();
+  const [simulatedHour, setSimulatedHour] = useState<number>(fallbackHour);
+  const [liveHour, setLiveHour] = useState<number>(fallbackHour);
 
   // Initialize and tick live system time
   useEffect(() => {
     const updateTime = () => {
-      const now = new Date();
-      setLiveHour(now.getHours() + now.getMinutes() / 60 + now.getSeconds() / 3600);
+      setLiveHour(getSystemHour());
     };
 
     updateTime();
