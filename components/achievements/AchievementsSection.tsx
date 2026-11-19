@@ -5,6 +5,7 @@ import GlassCard from "../ui/GlassCard";
 import ParallaxCard from "../ui/ParallaxCard";
 import { achievements } from "@/lib/data";
 import { use3DScroll } from "@/lib/use3DScroll";
+import { useTimeOfDay } from "@/lib/useTimeOfDay";
 
 function MilestoneIcon({ index }: { index: number }) {
   switch (index % 4) {
@@ -86,6 +87,7 @@ function MilestoneIcon({ index }: { index: number }) {
 
 export default function AchievementsSection() {
   const { ref, rotateX, translateY, opacity, scale } = use3DScroll({ initialRotateX: 9, initialY: 50 });
+  const { isNight } = useTimeOfDay();
 
   return (
     <motion.section
@@ -96,7 +98,9 @@ export default function AchievementsSection() {
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-12">
-          <h2 className="font-syne text-4xl md:text-[3.25rem] leading-[1.05] font-bold text-text-hi">
+          <h2 className={`font-syne text-4xl md:text-[3.25rem] leading-[1.05] font-bold transition-colors duration-500 ${
+            isNight ? "text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)]" : "text-text-hi"
+          }`}>
             Milestones.
           </h2>
         </div>

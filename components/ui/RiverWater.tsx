@@ -1,6 +1,10 @@
 "use client";
 
+import { useTimeOfDay } from "@/lib/useTimeOfDay";
+
 export default function RiverWater() {
+  const { isNight } = useTimeOfDay();
+
   // Sparkle positions scattered naturally across the riverbed
   const sparkles = [
     { left: "14%", top: "35%", delay: "0.2s", size: 6 },
@@ -26,46 +30,47 @@ export default function RiverWater() {
       }}
       aria-hidden="true"
     >
-      {/* Primary River Caustic Currents (horizontal light streaks drifting downstream) */}
+      {/* Primary River Caustic Currents (continuous full-width flow, no vertical tiling seams) */}
       <div
         style={{
           position: "absolute",
-          inset: "-30px",
+          inset: "-20px",
           backgroundImage: `
-            radial-gradient(ellipse 140px 18px at 15% 25%, rgba(255, 255, 255, 0.45) 0%, transparent 68%),
-            radial-gradient(ellipse 200px 24px at 45% 40%, rgba(255, 250, 235, 0.38) 0%, transparent 70%),
-            radial-gradient(ellipse 160px 20px at 75% 30%, rgba(255, 255, 255, 0.42) 0%, transparent 65%),
-            radial-gradient(ellipse 220px 28px at 30% 70%, rgba(255, 252, 240, 0.35) 0%, transparent 70%),
-            radial-gradient(ellipse 180px 22px at 85% 65%, rgba(255, 255, 255, 0.4) 0%, transparent 68%),
-            radial-gradient(ellipse 240px 30px at 60% 85%, rgba(255, 248, 225, 0.38) 0%, transparent 72%)
+            radial-gradient(ellipse 35% 25% at 18% 30%, ${isNight ? "rgba(224, 242, 254, 0.2)" : "rgba(255, 255, 255, 0.35)"} 0%, transparent 70%),
+            radial-gradient(ellipse 45% 30% at 52% 45%, ${isNight ? "rgba(186, 230, 253, 0.18)" : "rgba(255, 250, 235, 0.3)"} 0%, transparent 70%),
+            radial-gradient(ellipse 40% 28% at 82% 35%, ${isNight ? "rgba(224, 242, 254, 0.2)" : "rgba(255, 255, 255, 0.32)"} 0%, transparent 70%),
+            radial-gradient(ellipse 42% 32% at 32% 75%, ${isNight ? "rgba(186, 230, 253, 0.16)" : "rgba(255, 252, 240, 0.28)"} 0%, transparent 70%),
+            radial-gradient(ellipse 48% 35% at 68% 80%, ${isNight ? "rgba(224, 242, 254, 0.18)" : "rgba(255, 248, 225, 0.28)"} 0%, transparent 70%)
           `,
-          backgroundSize: "420px 90px",
-          mixBlendMode: "overlay",
-          opacity: 0.72,
-          animation: "riverDrift1 16s linear infinite",
+          backgroundSize: "100% 100%",
+          backgroundRepeat: "no-repeat",
+          mixBlendMode: isNight ? "screen" : "overlay",
+          opacity: isNight ? 0.45 : 0.68,
+          animation: "riverDrift1 18s ease-in-out infinite alternate",
           willChange: "transform",
         }}
       />
 
-      {/* Secondary Current Undulation (softer counter-balance current) */}
+      {/* Secondary Current Undulation (soft seamless counter-drift) */}
       <div
         style={{
           position: "absolute",
-          inset: "-30px",
+          inset: "-20px",
           backgroundImage: `
-            radial-gradient(ellipse 180px 16px at 25% 35%, rgba(255, 255, 255, 0.4) 0%, transparent 65%),
-            radial-gradient(ellipse 220px 22px at 70% 55%, rgba(255, 255, 255, 0.35) 0%, transparent 65%),
-            radial-gradient(ellipse 260px 26px at 40% 80%, rgba(255, 250, 230, 0.32) 0%, transparent 68%)
+            radial-gradient(ellipse 40% 25% at 28% 40%, ${isNight ? "rgba(224, 242, 254, 0.15)" : "rgba(255, 255, 255, 0.28)"} 0%, transparent 70%),
+            radial-gradient(ellipse 42% 28% at 72% 60%, ${isNight ? "rgba(186, 230, 253, 0.15)" : "rgba(255, 255, 255, 0.25)"} 0%, transparent 70%),
+            radial-gradient(ellipse 50% 30% at 45% 82%, ${isNight ? "rgba(224, 242, 254, 0.12)" : "rgba(255, 250, 230, 0.22)"} 0%, transparent 70%)
           `,
-          backgroundSize: "520px 110px",
-          mixBlendMode: "soft-light",
-          opacity: 0.8,
-          animation: "riverDrift2 22s linear infinite",
+          backgroundSize: "100% 100%",
+          backgroundRepeat: "no-repeat",
+          mixBlendMode: isNight ? "screen" : "soft-light",
+          opacity: isNight ? 0.5 : 0.72,
+          animation: "riverDrift2 24s ease-in-out infinite alternate",
           willChange: "transform",
         }}
       />
 
-      {/* Sunlight Sparkles (Diamond glints on ripple crests) */}
+      {/* Sunlight or Moonlight Sparkles (Diamond glints on ripple crests) */}
       {sparkles.map((sp, i) => (
         <div
           key={i}
@@ -75,9 +80,11 @@ export default function RiverWater() {
             top: sp.top,
             width: sp.size,
             height: sp.size,
-            backgroundColor: "#fffdf0",
+            backgroundColor: isNight ? "#e0f2fe" : "#fffdf0",
             borderRadius: "50%",
-            boxShadow: "0 0 6px 2px rgba(255, 250, 220, 0.8), 0 0 12px 4px rgba(255, 215, 0, 0.3)",
+            boxShadow: isNight
+              ? "0 0 6px 2px rgba(224, 242, 254, 0.85), 0 0 14px 4px rgba(186, 230, 253, 0.45)"
+              : "0 0 6px 2px rgba(255, 250, 220, 0.8), 0 0 12px 4px rgba(255, 215, 0, 0.3)",
             animation: "waterSparkle 3.5s ease-in-out infinite",
             animationDelay: sp.delay,
             willChange: "transform, opacity",
@@ -85,15 +92,16 @@ export default function RiverWater() {
         />
       ))}
 
-      {/* Soft Alpine Morning Mist drifting above the river */}
+      {/* Soft Alpine River Mist drifting smoothly above the water */}
       <div
         style={{
           position: "absolute",
           inset: "-40px",
-          background:
-            "radial-gradient(ellipse 80% 40% at 50% 40%, rgba(247, 244, 237, 0.22) 0%, transparent 80%)",
-          filter: "blur(16px)",
-          opacity: 0.6,
+          background: isNight
+            ? "radial-gradient(ellipse 85% 45% at 50% 40%, rgba(186, 230, 253, 0.08) 0%, transparent 80%)"
+            : "radial-gradient(ellipse 80% 40% at 50% 40%, rgba(247, 244, 237, 0.18) 0%, transparent 80%)",
+          filter: "blur(20px)",
+          opacity: isNight ? 0.45 : 0.6,
           animation: "riverMist 28s ease-in-out infinite",
           willChange: "transform",
         }}

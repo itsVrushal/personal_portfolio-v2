@@ -6,6 +6,7 @@ import GlassCard from "../ui/GlassCard";
 import ParallaxCard from "../ui/ParallaxCard";
 import { education, projects, experience } from "@/lib/data";
 import { use3DScroll } from "@/lib/use3DScroll";
+import { useTimeOfDay } from "@/lib/useTimeOfDay";
 
 function Counter({ from = 0, to, duration = 1.2 }: { from?: number; to: number; duration?: number }) {
   const [count, setCount] = useState(from);
@@ -31,6 +32,7 @@ function Counter({ from = 0, to, duration = 1.2 }: { from?: number; to: number; 
 
 export default function AboutSection() {
   const { ref, rotateX, translateY, opacity, scale } = use3DScroll({ initialRotateX: 8, initialY: 50 });
+  const { isNight } = useTimeOfDay();
 
   return (
     <motion.section
@@ -77,10 +79,14 @@ export default function AboutSection() {
         {/* Right — Bio */}
         <div className="flex flex-col justify-between">
           <div>
-            <h2 className="font-syne text-4xl md:text-[3.25rem] leading-[1.05] font-bold text-text-hi mb-6">
+            <h2 className={`font-syne text-4xl md:text-[3.25rem] leading-[1.05] font-bold mb-6 transition-colors duration-500 ${
+              isNight ? "text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)]" : "text-text-hi"
+            }`}>
               Building systems that think.
             </h2>
-            <p className="text-text-lo text-base leading-relaxed mb-8 max-w-[65ch]">
+            <p className={`text-base leading-relaxed mb-8 max-w-[65ch] transition-colors duration-500 ${
+              isNight ? "text-slate-200 drop-shadow-[0_1px_6px_rgba(0,0,0,0.6)]" : "text-text-lo"
+            }`}>
               AI &amp; Systems Developer building intelligent systems that bridge complex
               backend infrastructure and scalable machine learning. Currently completing a
               B.Tech in Artificial Intelligence and Data Science at {education.institution}.

@@ -3,9 +3,11 @@
 import { motion } from "framer-motion";
 import { skills } from "@/lib/data";
 import { use3DScroll } from "@/lib/use3DScroll";
+import { useTimeOfDay } from "@/lib/useTimeOfDay";
 
 export default function StackSection() {
   const { ref, rotateX, translateY, opacity, scale } = use3DScroll({ initialRotateX: 8, initialY: 50 });
+  const { isNight } = useTimeOfDay();
 
   const skillGroups = [
     {
@@ -61,7 +63,7 @@ export default function StackSection() {
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-10">
-          <h2 className="font-syne text-4xl md:text-[3.25rem] leading-[1.05] font-bold text-text-hi">
+          <h2 className={`font-syne text-4xl md:text-[3.25rem] leading-[1.05] font-bold transition-colors duration-500 ${isNight ? "text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)]" : "text-text-hi"}`}>
             Tools I think in.
           </h2>
         </div>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTimeOfDay } from "@/lib/useTimeOfDay";
 
 /**
  * Procedural SVG Soaring Eagle/Hawk with banking wings.
@@ -71,10 +72,24 @@ function SoaringEagle({
 }
 
 export default function CircularBird() {
+  const { isNight } = useTimeOfDay();
   const [active, setActive] = useState(false);
   const [variant, setVariant] = useState<"A" | "B">("A");
   const [flightKey, setFlightKey] = useState(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleComplete = () => {
+    // Completely unmounts when flight completes off-screen
+    setActive(false);
+
+    // Schedule next arrival between 14 and 26 seconds later
+    const nextDelay = 14000 + Math.random() * 12000;
+    timeoutRef.current = setTimeout(() => {
+      setVariant(Math.random() > 0.5 ? "A" : "B");
+      setFlightKey((k) => k + 1);
+      setActive(true);
+    }, nextDelay);
+  };
 
   useEffect(() => {
     // Fast initial arrival on reload (visual hook for the site)
@@ -92,48 +107,36 @@ export default function CircularBird() {
     };
   }, []);
 
-  const handleComplete = () => {
-    // Completely unmounts when flight completes off-screen
-    setActive(false);
+  // Safety fallback: if onAnimationComplete doesn't fire (e.g. background tab), complete after 11s
+  useEffect(() => {
+    if (!active) return;
+    const safety = setTimeout(() => {
+      handleComplete();
+    }, 11000);
+    return () => clearTimeout(safety);
+  }, [active, flightKey]);
 
-    // Schedule next arrival between 14 and 28 seconds later
-    const nextDelay = 14000 + Math.random() * 14000;
-    timeoutRef.current = setTimeout(() => {
-      setVariant(Math.random() > 0.5 ? "A" : "B");
-      setFlightKey((k) => k + 1);
-      setActive(true);
-    }, nextDelay);
-  };
-
-  // If not actively flying, render nothing (impossible to get stuck anywhere)
-  if (!active) {
+  // If night time, birds roost; or if not actively flying, render nothing
+  if (isNight || !active) {
     return null;
   }
 
-  // Variant A: Enters from LEFT, faces RIGHT (flip=false).
-  // Trajectory: Flies rightward across the sky behind text (zIndex: 0),
-  // swoops forward into the foreground in front of text/cards (zIndex: 25),
-  // then climbs and exits off the right edge. ALWAYS flying forward!
+  // Variant A: Enters from LEFT (-20vw), flies towards RIGHT (125vw). Head faces RIGHT (flip=false).
   const trajectoryA = {
-    x: ["-14vw", "10vw", "35vw", "56vw", "74vw", "92vw", "125vw"],
-    y: ["15vh", "18vh", "22vh", "38vh", "42vh", "28vh", "14vh"],
-    scale: [0.72, 0.76, 0.84, 1.25, 1.38, 1.15, 0.75],
-    rotate: [8, 12, 18, 10, -12, -22, -10],
-    opacity: [0, 0.88, 0.9, 0.96, 0.98, 0.92, 0],
-    zIndex: [0, 0, 0, 25, 25, 25, 25],
+    x: ["-20vw", "12vw", "38vw", "58vw", "78vw", "98vw", "128vw"],
+    y: ["15vh", "20vh", "32vh", "40vh", "32vh", "22vh", "15vh"],
+    scale: [0.75, 0.85, 1.25, 1.38, 1.18, 0.88, 0.72],
+    rotate: [10, 16, 12, -8, -18, -14, -8],
+    opacity: [0, 0.9, 0.98, 1, 0.96, 0.88, 0],
   };
 
-  // Variant B: Enters from RIGHT, faces LEFT (flip=true).
-  // Trajectory: Flies leftward across the sky behind text (zIndex: 0),
-  // swoops forward into the foreground in front of text/cards (zIndex: 25),
-  // then climbs and exits off the left edge. ALWAYS flying forward with beak leading!
+  // Variant B: Enters from RIGHT (120vw), flies towards LEFT (-25vw). Head faces LEFT (flip=true).
   const trajectoryB = {
-    x: ["114vw", "90vw", "65vw", "44vw", "26vw", "8vw", "-20vw"],
-    y: ["15vh", "18vh", "22vh", "38vh", "42vh", "28vh", "14vh"],
-    scale: [0.72, 0.76, 0.84, 1.25, 1.38, 1.15, 0.75],
-    rotate: [-8, -12, -18, -10, 12, 22, 10],
-    opacity: [0, 0.88, 0.9, 0.96, 0.98, 0.92, 0],
-    zIndex: [0, 0, 0, 25, 25, 25, 25],
+    x: ["120vw", "92vw", "68vw", "46vw", "26vw", "6vw", "-25vw"],
+    y: ["15vh", "20vh", "32vh", "40vh", "32vh", "22vh", "15vh"],
+    scale: [0.75, 0.85, 1.25, 1.38, 1.18, 0.88, 0.72],
+    rotate: [-10, -16, -12, 8, 18, 14, 8],
+    opacity: [0, 0.9, 0.98, 1, 0.96, 0.88, 0],
   };
 
   const trajectory = variant === "A" ? trajectoryA : trajectoryB;
@@ -143,7 +146,7 @@ export default function CircularBird() {
     <AnimatePresence>
       <div
         className="fixed inset-0 pointer-events-none overflow-hidden select-none"
-        style={{ position: "fixed" }}
+        style={{ zIndex: 30, position: "fixed" }}
         aria-hidden="true"
       >
         <motion.div
@@ -154,20 +157,19 @@ export default function CircularBird() {
             scale: trajectory.scale[0],
             rotate: trajectory.rotate[0],
             opacity: 0,
-            zIndex: 0,
           }}
           animate={trajectory}
           transition={{
-            duration: 10.5,
+            duration: 9.8,
             ease: "easeInOut",
-            times: [0, 0.2, 0.38, 0.55, 0.7, 0.85, 1],
+            times: [0, 0.18, 0.36, 0.54, 0.72, 0.88, 1],
           }}
           onAnimationComplete={handleComplete}
           style={{
             position: "absolute",
             top: 0,
             left: 0,
-            filter: "drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3))",
+            filter: "drop-shadow(0 8px 16px rgba(0, 0, 0, 0.35))",
             willChange: "transform, opacity",
           }}
         >

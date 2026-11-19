@@ -6,8 +6,10 @@ import MagneticButton from "../ui/MagneticButton";
 import GlassCard from "../ui/GlassCard";
 import { personalInfo } from "@/lib/data";
 import { use3DScroll } from "@/lib/use3DScroll";
+import { useTimeOfDay } from "@/lib/useTimeOfDay";
 
 export default function ContactSection() {
+  const { isNight } = useTimeOfDay();
   const { ref, rotateX, translateY, opacity, scale } = use3DScroll({
     initialRotateX: 6,
     initialY: 40,
@@ -88,7 +90,11 @@ export default function ContactSection() {
         </motion.div>
       </div>
 
-      <div className="absolute bottom-6 left-0 right-0 text-center font-sans text-xs text-text-hi font-medium drop-shadow-[0_1px_8px_rgba(255,255,255,0.95)]">
+      <div className={`absolute bottom-6 left-0 right-0 text-center font-sans text-xs font-medium transition-colors duration-500 ${
+        isNight
+          ? "text-slate-300 drop-shadow-[0_1px_8px_rgba(0,0,0,0.85)]"
+          : "text-text-hi drop-shadow-[0_1px_8px_rgba(255,255,255,0.95)]"
+      }`}>
         &copy; {new Date().getFullYear()} {personalInfo.name}, Pune
       </div>
     </motion.section>

@@ -6,6 +6,7 @@ import GlassCard from "../ui/GlassCard";
 import ParallaxCard from "../ui/ParallaxCard";
 import { projects, personalInfo, Project } from "@/lib/data";
 import { use3DScroll } from "@/lib/use3DScroll";
+import { useTimeOfDay } from "@/lib/useTimeOfDay";
 
 const CATEGORIES = [
   "All",
@@ -93,6 +94,7 @@ export default function ProjectsSection() {
   const { ref, rotateX, translateY, opacity, scale } = use3DScroll({ initialRotateX: 9, initialY: 55 });
   const [activeCategory, setActiveCategory] = useState<Category>("All");
   const [open, setOpen] = useState<Record<string, boolean>>({});
+  const { isNight } = useTimeOfDay();
 
   const filteredProjects =
     activeCategory === "All"
@@ -112,7 +114,9 @@ export default function ProjectsSection() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
           <div>
-            <h2 className="font-syne text-4xl md:text-[3.25rem] leading-[1.05] font-bold text-text-hi">
+            <h2 className={`font-syne text-4xl md:text-[3.25rem] leading-[1.05] font-bold transition-colors duration-500 ${
+              isNight ? "text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)]" : "text-text-hi"
+            }`}>
               Things I&apos;ve built.
             </h2>
           </div>

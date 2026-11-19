@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { createPortal } from "react-dom";
+import { useTimeOfDay } from "@/lib/useTimeOfDay";
 
 const links = [
   { name: "Home",       href: "#home" },
@@ -48,6 +49,7 @@ export default function Navbar() {
   const activeSection = useActiveSection();
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const mounted = useMounted(700);
+  const { isNight } = useTimeOfDay();
 
   if (!mounted) return null;
 
@@ -98,8 +100,9 @@ export default function Navbar() {
               top: "-0.5rem",
               bottom: "-0.5rem",
               width: "1px",
-              background:
-                "linear-gradient(to bottom, transparent, var(--hairline) 20%, var(--hairline) 80%, transparent)",
+              background: isNight
+                ? "linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.12) 20%, rgba(255, 255, 255, 0.12) 80%, transparent)"
+                : "linear-gradient(to bottom, transparent, var(--hairline) 20%, var(--hairline) 80%, transparent)",
               borderRadius: "1px",
             }}
           />
@@ -162,7 +165,8 @@ export default function Navbar() {
                         fontSize:      "0.75rem",
                         letterSpacing: "0",
                         textTransform: "none",
-                        color:         isActive ? "var(--accent)" : "var(--text-hi)",
+                        color:         isActive ? "var(--accent)" : isNight ? "#f8fafc" : "var(--text-hi)",
+                        textShadow:    isNight && !isActive ? "0 1px 6px rgba(0,0,0,0.8)" : "none",
                         whiteSpace:    "nowrap",
                         willChange:    "transform, opacity",
                       }}

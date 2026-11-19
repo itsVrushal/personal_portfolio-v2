@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useTimeOfDay } from "@/lib/useTimeOfDay";
 
 const VRUSHAL_LETTERS = "VRUSHAL".split("");
 const PATIL_LETTERS = "PATIL".split("");
@@ -9,6 +10,7 @@ const PATIL_LETTERS = "PATIL".split("");
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const spotlightRef = useRef<HTMLDivElement>(null);
+  const { isNight } = useTimeOfDay();
 
   // Spotlight follows mouse
   const handleMouseMove = useCallback((e: MouseEvent) => {
@@ -74,10 +76,12 @@ export default function HeroSection() {
               <span
                 style={{
                   display: "inline-flex",
-                  color: "var(--text-hi)",
-                  textShadow:
-                    "0 2px 20px var(--shadow-warm), 0 1px 3px var(--shadow-ink)",
+                  color: isNight ? "#ffffff" : "var(--text-hi)",
+                  textShadow: isNight
+                    ? "0 0 35px rgba(255, 255, 255, 0.45), 0 2px 10px rgba(0, 0, 0, 0.8)"
+                    : "0 2px 20px var(--shadow-warm), 0 1px 3px var(--shadow-ink)",
                   perspective: "1000px",
+                  transition: "color 0.5s ease, text-shadow 0.5s ease",
                 }}
               >
                 {VRUSHAL_LETTERS.map((char, i) => (
@@ -106,10 +110,13 @@ export default function HeroSection() {
               <span
                 style={{
                   display: "inline-flex",
-                  WebkitTextStroke: "2px var(--text-hi)",
-                  color: "var(--accent-ghost)",
-                  textShadow: "0 8px 30px var(--glow-accent)",
+                  WebkitTextStroke: isNight ? "2px rgba(255, 255, 255, 0.92)" : "2px var(--text-hi)",
+                  color: isNight ? "rgba(255, 255, 255, 0.1)" : "var(--accent-ghost)",
+                  textShadow: isNight
+                    ? "0 0 25px rgba(255, 255, 255, 0.35)"
+                    : "0 8px 30px var(--glow-accent)",
                   perspective: "1000px",
+                  transition: "color 0.5s ease, text-shadow 0.5s ease, -webkit-text-stroke 0.5s ease",
                 }}
               >
                 {PATIL_LETTERS.map((char, i) => (
@@ -140,7 +147,11 @@ export default function HeroSection() {
               initial={{ y: 16 }}
               animate={{ y: 0 }}
               transition={{ duration: 0.6, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
-              className="text-black text-lg md:text-xl max-w-[60ch] font-medium"
+              className={`text-lg md:text-xl max-w-[60ch] font-medium transition-colors duration-500 ${
+                isNight
+                  ? "text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]"
+                  : "text-black"
+              }`}
               style={{ marginBottom: "2.5rem", lineHeight: 1.6 }}
             >
               Building the future with code, one algorithm at a time. Designing

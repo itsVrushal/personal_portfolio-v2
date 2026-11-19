@@ -4,10 +4,12 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { experience } from "@/lib/data";
 import { use3DScroll } from "@/lib/use3DScroll";
+import { useTimeOfDay } from "@/lib/useTimeOfDay";
 import ParallaxCard from "../ui/ParallaxCard";
 
 export default function ExperienceSection() {
   const { ref, rotateX, translateY, opacity, scale } = use3DScroll({ initialRotateX: 10, initialY: 60 });
+  const { isNight } = useTimeOfDay();
   const [open, setOpen] = useState<Record<number, boolean>>({});
 
   const toggle = (index: number) =>
@@ -22,7 +24,9 @@ export default function ExperienceSection() {
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-10">
-          <h2 className="font-syne text-4xl md:text-[3.25rem] leading-[1.05] font-bold text-text-hi">
+          <h2 className={`font-syne text-4xl md:text-[3.25rem] leading-[1.05] font-bold transition-colors duration-500 ${
+            isNight ? "text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.7)]" : "text-text-hi"
+          }`}>
             Experience.
           </h2>
         </div>
