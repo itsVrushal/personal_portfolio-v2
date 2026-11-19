@@ -93,7 +93,7 @@ export default function ProjectsSection() {
           </div>
         </div>
 
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project: Project, index: number) => {
               const key = project.name;
@@ -103,13 +103,12 @@ export default function ProjectsSection() {
               return (
                 <motion.div
                   key={key}
-                  layout
+                  layout="position"
                   initial={{ y: 24 }}
                   animate={{ y: 0 }}
                   exit={{ y: -12 }}
                   transition={{
-                    duration: 0.45,
-                    delay: (index % 6) * 0.05,
+                    duration: 0.4,
                     ease: [0.22, 1, 0.36, 1],
                   }}
                   className="h-full min-w-0 flex flex-col col-span-1"
@@ -162,16 +161,27 @@ export default function ProjectsSection() {
                         </svg>
                       </button>
 
-                      {isOpen && (
-                        <ul id={panelId} className="flex flex-col gap-2.5 mt-5">
-                          {project.description.map((item, i) => (
-                            <li key={i} className="flex items-start text-text-lo text-sm leading-relaxed">
-                              <span className="text-accent mr-3 mt-1.5 opacity-60 text-xs" aria-hidden="true">▹</span>
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
+                      <AnimatePresence initial={false}>
+                        {isOpen && (
+                          <motion.div
+                            key="panel"
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                            className="overflow-hidden"
+                          >
+                            <ul id={panelId} className="flex flex-col gap-2.5 pt-5">
+                              {project.description.map((item, i) => (
+                                <li key={i} className="flex items-start text-text-lo text-sm leading-relaxed">
+                                  <span className="text-accent mr-3 mt-1.5 opacity-60 text-xs" aria-hidden="true">▹</span>
+                                  <span>{item}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </div>
                   </GlassCard>
                 </motion.div>
@@ -198,7 +208,7 @@ export default function ProjectsSection() {
               </span>
             </GlassCard>
           </a>
-        </motion.div>
+        </div>
       </div>
     </motion.section>
   );
