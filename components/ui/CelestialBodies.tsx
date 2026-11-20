@@ -1,6 +1,7 @@
 "use client";
 
 import { useTimeOfDay } from "@/lib/useTimeOfDay";
+import { getLunarShadowMask } from "@/lib/moonPhase";
 
 // Yosemite Valley open sky aperture polygon
 // (The region above the granite mountain summits where the sky, sun, moon, and stars reside)
@@ -44,9 +45,12 @@ export default function CelestialBodies() {
     moonVisible,
     moonX,
     moonY,
-    moonPhaseAngle,
+    moonPhase,
     themeTint,
   } = useTimeOfDay();
+
+  // Astronomical lunar shadow mask for current phase synced to local date
+  const lunarMask = getLunarShadowMask(moonPhase.normalizedPhase, 29, 29, 29);
 
   // Sun coloration shifts with time of day
   const getSunColor = () => {
@@ -164,10 +168,11 @@ export default function CelestialBodies() {
           </div>
         )}
 
-        {/* THE MOON */}
+        {/* THE MOON (Astronomical phase synced to local date) */}
         {moonVisible && (
           <div
             suppressHydrationWarning
+            title={`Moon: ${moonPhase.phaseName} (${moonPhase.illuminationPct}% illuminated, ${moonPhase.phaseSymbol})`}
             style={{
               position: "absolute",
               left: `${moonX}%`,
@@ -178,12 +183,12 @@ export default function CelestialBodies() {
               borderRadius: "50%",
               background:
                 "radial-gradient(circle at 35% 35%, #ffffff 0%, #f1f5f9 45%, #cbd5e1 85%, #94a3b8 100%)",
-              boxShadow:
-                "0 0 40px 14px rgba(224, 242, 254, 0.55), 0 0 95px 40px rgba(186, 230, 253, 0.28)",
+              boxShadow: `0 0 ${Math.round(20 + 22 * moonPhase.illumination)}px ${Math.round(8 + 8 * moonPhase.illumination)}px rgba(224, 242, 254, ${Number((0.18 + 0.38 * moonPhase.illumination).toFixed(2))}), 0 0 ${Math.round(45 + 50 * moonPhase.illumination)}px ${Math.round(18 + 22 * moonPhase.illumination)}px rgba(186, 230, 253, ${Number((0.12 + 0.2 * moonPhase.illumination).toFixed(2))})`,
               willChange: "transform, left, top",
+              overflow: "hidden",
             }}
           >
-            {/* Lunar craters */}
+            {/* Lunar craters & maria topography */}
             <div
               style={{
                 position: "absolute",
@@ -218,17 +223,34 @@ export default function CelestialBodies() {
               }}
             />
 
-            {/* Lunar phase crescent / shadow mask */}
-            {moonPhaseAngle > 0.1 && moonPhaseAngle < 0.9 && (
-              <div
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  borderRadius: "50%",
-                  boxShadow: "inset 14px 0 10px rgba(15, 23, 42, 0.72)",
-                }}
-              />
+            {/* Astronomical Phase Terminator Shadow (precise SVG mask) */}
+            {!lunarMask.isFull && (
+              <svg
+                width="58"
+                height="58"
+                viewBox="0 0 58 58"
+                className="absolute inset-0 pointer-events-none"
+                style={{ borderRadius: "50%" }}
+                aria-hidden="true"
+              >
+                <path
+                  d={lunarMask.shadowPath}
+                  fill="#020617"
+                  fillOpacity={lunarMask.isNew ? 0.94 : 0.88}
+                />
+              </svg>
             )}
+
+            {/* Spherical limb darkening and edge depth */}
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                borderRadius: "50%",
+                boxShadow: "inset 0 0 8px 1px rgba(15, 23, 42, 0.45)",
+                pointerEvents: "none",
+              }}
+            />
           </div>
         )}
       </div>

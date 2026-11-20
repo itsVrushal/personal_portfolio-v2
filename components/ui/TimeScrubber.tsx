@@ -12,7 +12,7 @@ export default function TimeScrubber() {
     () => true,
     () => false
   );
-  const { mode, setMode, hour, setSimulatedHour, period, isNight } = useTimeOfDay();
+  const { mode, setMode, hour, setSimulatedHour, period, isNight, moonPhase } = useTimeOfDay();
   const [isOpen, setIsOpen] = useState(false);
 
   if (!siteConfig.enableTimeScrubber || !mounted) {
@@ -163,6 +163,16 @@ export default function TimeScrubber() {
                 }}
                 className="w-full accent-accent cursor-pointer h-1.5 bg-border/40 rounded-lg"
               />
+            </div>
+
+            {/* Real Astronomical Moon Phase synced to local date */}
+            <div className="flex items-center justify-between text-xs px-2 py-1.5 rounded-lg bg-surface/50 border border-border/40">
+              <span className="text-text-lo">Lunar Phase:</span>
+              <span className="font-semibold text-text-hi flex items-center gap-1.5">
+                <span>{moonPhase.phaseSymbol}</span>
+                <span>{moonPhase.phaseName}</span>
+                <span className="text-[10px] text-accent font-mono font-bold">({moonPhase.illuminationPct}%)</span>
+              </span>
             </div>
 
             <p className="text-[10px] text-text-lo leading-tight">
