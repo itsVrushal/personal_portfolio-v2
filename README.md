@@ -28,9 +28,7 @@ My engineering focus centers on high-performance applied AI, low-latency infrast
   - Designed an autonomous multi-agent orchestration layer (LangChain) routing cross-database reasoning across Snowflake and PostgreSQL.
   - Benchmarked and shipped Redis-backed semantic caching: **801× query speedup** (31.9s → 0.03s), **60–90% reduction in redundant LLM API calls**, and **10–50ms cache-hit latency**.
   - Built hybrid RAG pipelines (semantic + BM25 keyword retrieval) with a 92% cache hit rate; developed modular Model Context Protocol (MCP) servers.
-- **OneShot Technologies** — *Founding Engineer* `(2024 – Present)`
-  - Architected edge-to-cloud video streaming converting raw RTSP feeds into ultra-low-latency WebRTC streams (`go2rtc`) across multi-brand IP cameras.
-  - Engineered a secure Edge Gateway + WireGuard VPN networking layer enabling remote ML model management across 300+ distributed sites with zero public exposure.
+
 
 ### 🏆 Recognitions & Open Source
 
@@ -99,7 +97,7 @@ personal_portfolio-v2/
 │   ├── about/                  # Education, philosophy, background
 │   ├── achievements/           # Patents, Springer paper, HackMITWPU awards
 │   ├── contact/                # Direct contact channels, socials & location
-│   ├── experience/             # PTC, AutonexAI360, OneShot engineering roles
+│   ├── experience/             # PTC, AutonexAI360 engineering roles
 │   ├── hero/                   # Kinetic typography, role toggler, status indicators
 │   ├── nav/                    # Responsive floating glass navbar
 │   ├── projects/               # Filterable project showcase with Colab/GitHub/Demo links
